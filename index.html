@@ -1,0 +1,3076 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="theme-color"
+  content="#f8f1ff"
+>
+
+<title>Mişa'nın Dünyası</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color: #29243a;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff7fb 0%,
+      #f5efff 52%,
+      #edfaff 100%
+    );
+}
+
+button {
+  font-family: inherit;
+}
+
+.app {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 50px;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.header {
+  text-align: center;
+  padding: 12px 8px 22px;
+}
+
+.header h1 {
+  margin: 0;
+
+  font-size:
+    clamp(34px, 8vw, 58px);
+
+  font-weight: 900;
+
+  letter-spacing: -1.5px;
+}
+
+.header p {
+  margin: 12px 0 16px;
+
+  font-size:
+    clamp(19px, 4.5vw, 28px);
+
+  color: #756a83;
+
+  font-weight: 700;
+}
+
+.syncbox {
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 11px 20px;
+
+  border: 2px solid #eadced;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.88);
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  color: #51485d;
+}
+
+.dot {
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #37c88b;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(55,200,139,.12);
+}
+
+.dot.off {
+
+  background: #e36b72;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(227,107,114,.12);
+}
+
+
+/* =====================================================
+   CARD
+   ===================================================== */
+
+.card {
+
+  background:
+    rgba(255,255,255,.95);
+
+  border:
+    2px solid #eee0f1;
+
+  border-radius: 34px;
+
+  padding: 28px;
+
+  margin-bottom: 26px;
+
+  box-shadow:
+    0 12px 35px
+    rgba(74,52,94,.06);
+}
+
+
+/* =====================================================
+   PET
+   ===================================================== */
+
+.pet-area {
+  text-align: center;
+  overflow: hidden;
+}
+
+.cat {
+
+  position: relative;
+
+  width: 250px;
+  height: 250px;
+
+  margin:
+    5px auto 12px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.cat-face {
+
+  font-size: 190px;
+
+  line-height: 1;
+
+  filter:
+    drop-shadow(
+      0 15px 14px
+      rgba(70,50,90,.13)
+    );
+
+  user-select: none;
+
+  transition:
+    transform .25s ease;
+}
+
+.cat-face:hover {
+  transform: scale(1.03);
+}
+
+.pet-floor {
+
+  height: 12px;
+
+  margin:
+    22px auto 0;
+
+  width: 78%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(117,100,140,.18),
+      transparent 70%
+    );
+}
+
+.pet-name {
+
+  margin: 0;
+
+  font-size: 48px;
+
+  font-weight: 900;
+
+  letter-spacing: -1px;
+}
+
+.pet-stage {
+
+  margin-top: 7px;
+
+  font-size: 23px;
+
+  color: #7c7088;
+
+  font-weight: 600;
+}
+
+.notice {
+
+  margin-top: 28px;
+
+  padding: 16px;
+
+  border-radius: 20px;
+
+  background: #faf5ff;
+
+  color: #756a83;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  line-height: 1.45;
+}
+
+
+/* =====================================================
+   LEVEL
+   ===================================================== */
+
+.level-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+.level-title {
+
+  margin: 0;
+
+  font-size: 34px;
+
+  font-weight: 900;
+}
+
+.activity-count {
+
+  color: #786d82;
+
+  font-size: 16px;
+
+  font-weight: 600;
+}
+
+.xp-text {
+
+  margin:
+    3px 0 14px;
+
+  color: #7b7083;
+
+  font-size: 20px;
+
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   XP
+   ===================================================== */
+
+.xp-bar {
+
+  width: 100%;
+
+  height: 18px;
+
+  background: #eee8f3;
+
+  border-radius: 999px;
+
+  overflow: hidden;
+
+  margin-bottom: 24px;
+}
+
+.xp-fill {
+
+  height: 100%;
+
+  width: 0%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #c9a5ff,
+      #ff9dc4
+    );
+
+  transition:
+    width .4s ease;
+}
+
+
+/* =====================================================
+   STATS
+   ===================================================== */
+
+.stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 14px;
+}
+
+.stat {
+
+  text-align: center;
+
+  padding:
+    18px 10px;
+
+  background: #fbf8fc;
+
+  border-radius: 25px;
+}
+
+.stat-icon {
+
+  font-size: 38px;
+
+  line-height: 1;
+}
+
+.stat-value {
+
+  margin-top: 8px;
+
+  font-size: 31px;
+
+  font-weight: 900;
+}
+
+.stat-name {
+
+  margin-top: 4px;
+
+  color: #81758d;
+
+  font-size: 16px;
+
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   ACTIONS
+   ===================================================== */
+
+.section-title {
+
+  margin:
+    0 0 22px;
+
+  font-size: 32px;
+
+  font-weight: 900;
+}
+
+.actions {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 16px;
+}
+
+.action-btn {
+
+  appearance: none;
+
+  border:
+    2px solid #eadcf0;
+
+  border-radius: 28px;
+
+  background: #fff;
+
+  padding:
+    24px 12px;
+
+  cursor: pointer;
+
+  color: #0879ee;
+
+  font-size: 29px;
+
+  font-weight: 900;
+
+  min-height: 150px;
+
+  box-shadow:
+    0 6px 15px
+    rgba(65,45,85,.04);
+
+  transition:
+    transform .12s ease,
+    box-shadow .12s ease,
+    background .12s ease;
+}
+
+.action-btn:active {
+
+  transform:
+    scale(.97);
+
+  box-shadow:
+    0 2px 7px
+    rgba(65,45,85,.08);
+
+  background: #faf7ff;
+}
+
+.action-btn:disabled {
+
+  opacity: .5;
+
+  cursor: not-allowed;
+}
+
+.action-icon {
+
+  display: block;
+
+  font-size: 48px;
+
+  margin-bottom: 9px;
+}
+
+.action-xp {
+
+  display: block;
+
+  margin-top: 6px;
+
+  color: #82768d;
+
+  font-size: 19px;
+
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   BOTTOM
+   ===================================================== */
+
+.bottom-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 18px;
+}
+
+.info-box {
+
+  padding: 24px;
+
+  border-radius: 25px;
+
+  background: #fbf8fc;
+}
+
+.info-title {
+
+  margin:
+    0 0 10px;
+
+  font-size: 25px;
+
+  font-weight: 900;
+}
+
+.info-text {
+
+  margin: 0;
+
+  color: #453c50;
+
+  font-size: 19px;
+
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   CONNECTION
+   ===================================================== */
+
+.connection {
+
+  text-align: center;
+
+  margin-top: 25px;
+
+  color: #81758d;
+
+  font-size: 17px;
+
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   ERROR
+   ===================================================== */
+
+.error-box {
+
+  display: none;
+
+  margin-top: 18px;
+
+  padding: 18px;
+
+  border-radius: 20px;
+
+  border:
+    2px solid #f3b8bd;
+
+  background: #fff1f2;
+
+  color: #963b43;
+
+  text-align: left;
+
+  line-height: 1.5;
+
+  overflow-wrap:
+    anywhere;
+}
+
+.error-box.show {
+  display: block;
+}
+
+.error-title {
+
+  font-size: 19px;
+
+  font-weight: 900;
+
+  margin-bottom: 5px;
+}
+
+.error-detail {
+
+  margin-top: 10px;
+
+  font-size: 13px;
+
+  opacity: .8;
+
+  word-break:
+    break-word;
+}
+
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+
+.toast {
+
+  position: fixed;
+
+  left: 50%;
+
+  bottom: 25px;
+
+  transform:
+    translate(-50%, 25px);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  background: #29243a;
+
+  color: white;
+
+  padding:
+    14px 22px;
+
+  border-radius: 999px;
+
+  font-weight: 700;
+
+  z-index: 1000;
+
+  transition:
+    opacity .2s ease,
+    transform .2s ease;
+
+  max-width: 90%;
+
+  text-align: center;
+}
+
+.toast.show {
+
+  opacity: 1;
+
+  transform:
+    translate(-50%, 0);
+}
+
+
+/* =====================================================
+   MODAL
+   ===================================================== */
+
+.modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(35,27,45,.45);
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 2000;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modalbox {
+
+  width: 100%;
+
+  max-width: 390px;
+
+  background: white;
+
+  border-radius: 30px;
+
+  padding: 30px;
+
+  text-align: center;
+
+  box-shadow:
+    0 25px 70px
+    rgba(30,20,40,.25);
+}
+
+.modalpet {
+  font-size: 70px;
+}
+
+.modalbox h2 {
+
+  margin:
+    12px 0 8px;
+
+  font-size: 30px;
+}
+
+.modalbox p {
+
+  color: #74697f;
+
+  font-size: 18px;
+}
+
+.close {
+
+  border: 0;
+
+  background: #1677ed;
+
+  color: white;
+
+  padding:
+    13px 25px;
+
+  border-radius: 999px;
+
+  font-size: 17px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 650px) {
+
+  .app {
+
+    padding:
+      16px
+      12px
+      40px;
+  }
+
+  .card {
+
+    padding: 20px;
+
+    border-radius: 28px;
+  }
+
+  .cat {
+
+    width: 210px;
+
+    height: 210px;
+  }
+
+  .cat-face {
+
+    font-size: 155px;
+  }
+
+  .pet-name {
+
+    font-size: 42px;
+  }
+
+  .stats {
+
+    gap: 8px;
+  }
+
+  .stat {
+
+    padding:
+      15px 5px;
+  }
+
+  .stat-icon {
+
+    font-size: 31px;
+  }
+
+  .stat-value {
+
+    font-size: 26px;
+  }
+
+  .stat-name {
+
+    font-size: 14px;
+  }
+
+  .action-btn {
+
+    min-height: 140px;
+
+    font-size: 24px;
+  }
+
+  .action-icon {
+
+    font-size: 42px;
+  }
+
+  .bottom-grid {
+
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 390px) {
+
+  .stats {
+
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+
+    grid-template-columns: 1fr;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header class="header">
+
+  <h1>
+    🐱 Mişa'nın Dünyası
+  </h1>
+
+  <p>
+    Özlem &amp; Mehmet'in Evcil Hayvanı Mişa
+  </p>
+
+  <div class="syncbox">
+
+    ☁️
+
+    <span id="sync">
+      Supabase bağlanıyor...
+    </span>
+
+    <span
+      id="dot"
+      class="dot off"
+    ></span>
+
+  </div>
+
+</header>
+
+
+<!-- =====================================================
+     PET
+     ===================================================== -->
+
+<section class="card pet-area">
+
+  <div class="cat">
+
+    <div
+      id="catFace"
+      class="cat-face"
+    >
+      🐱
+    </div>
+
+  </div>
+
+  <div class="pet-floor"></div>
+
+  <h2
+    id="petName"
+    class="pet-name"
+  >
+    Mişa
+  </h2>
+
+  <div
+    id="petStage"
+    class="pet-stage"
+  >
+    Minik Yavru
+  </div>
+
+  <div class="notice">
+
+    ☁️ Ortak kayıt · İki telefonda aynı Mişa
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     LEVEL
+     ===================================================== -->
+
+<section class="card">
+
+  <div class="level-header">
+
+    <h2
+      id="levelTitle"
+      class="level-title"
+    >
+      Seviye 1
+    </h2>
+
+    <span
+      id="activityCount"
+      class="activity-count"
+    >
+      0 aktivite
+    </span>
+
+  </div>
+
+
+  <div
+    id="xpText"
+    class="xp-text"
+  >
+    0 / 100 XP
+  </div>
+
+
+  <div class="xp-bar">
+
+    <div
+      id="xpFill"
+      class="xp-fill"
+    ></div>
+
+  </div>
+
+
+  <div class="stats">
+
+
+    <div class="stat">
+
+      <div class="stat-icon">
+        🍖
+      </div>
+
+      <div
+        id="hunger"
+        class="stat-value"
+      >
+        80
+      </div>
+
+      <div class="stat-name">
+        Açlık
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-icon">
+        ⚡
+      </div>
+
+      <div
+        id="energy"
+        class="stat-value"
+      >
+        80
+      </div>
+
+      <div class="stat-name">
+        Enerji
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-icon">
+        ❤️
+      </div>
+
+      <div
+        id="happiness"
+        class="stat-value"
+      >
+        80
+      </div>
+
+      <div class="stat-name">
+        Mutluluk
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     ACTIONS
+     ===================================================== -->
+
+<section class="card">
+
+  <h2 class="section-title">
+    Mişa ile ilgilen
+  </h2>
+
+
+  <div class="actions">
+
+
+    <button
+      class="action-btn"
+      onclick="act('feed')"
+    >
+
+      <span class="action-icon">
+        🍖
+      </span>
+
+      Besle
+
+      <span class="action-xp">
+        +10 XP
+      </span>
+
+    </button>
+
+
+    <button
+      class="action-btn"
+      onclick="act('play')"
+    >
+
+      <span class="action-icon">
+        🎾
+      </span>
+
+      Oyna
+
+      <span class="action-xp">
+        +15 XP
+      </span>
+
+    </button>
+
+
+    <button
+      class="action-btn"
+      onclick="act('love')"
+    >
+
+      <span class="action-icon">
+        ❤️
+      </span>
+
+      Sev
+
+      <span class="action-xp">
+        +10 XP
+      </span>
+
+    </button>
+
+
+    <button
+      class="action-btn"
+      onclick="act('rest')"
+    >
+
+      <span class="action-icon">
+        😴
+      </span>
+
+      Dinlendir
+
+      <span class="action-xp">
+        +8 XP
+      </span>
+
+    </button>
+
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     BOTTOM
+     ===================================================== -->
+
+<section class="card">
+
+
+  <div class="bottom-grid">
+
+
+    <div class="info-box">
+
+      <h3 class="info-title">
+        🌱 Gelişim
+      </h3>
+
+      <p
+        id="development"
+        class="info-text"
+      >
+        Mişa yeni dünyasını keşfetmeye başladı.
+      </p>
+
+    </div>
+
+
+    <div class="info-box">
+
+      <h3 class="info-title">
+        🏆 Son aktivite
+      </h3>
+
+      <p
+        id="lastActivity"
+        class="info-text"
+      >
+        Henüz aktivite yok.
+      </p>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="connection">
+
+    <span id="connectionText">
+      Supabase bağlantısı kontrol ediliyor...
+    </span>
+
+  </div>
+
+
+  <div
+    id="errorBox"
+    class="error-box"
+  >
+
+    <div class="error-title">
+      Supabase hatası:
+    </div>
+
+    <div id="errorText">
+      -
+    </div>
+
+    <div
+      id="errorDetail"
+      class="error-detail"
+    ></div>
+
+  </div>
+
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+     ===================================================== -->
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<!-- =====================================================
+     MODAL
+     ===================================================== -->
+
+<div
+  id="modal"
+  class="modal"
+>
+
+  <div class="modalbox">
+
+    <div class="modalpet">
+      🎉
+    </div>
+
+    <h2 id="modalTitle">
+      Seviye atladın!
+    </h2>
+
+    <p id="modalText">
+      Mişa büyüyor!
+    </p>
+
+    <button
+      class="close"
+      onclick="closeModal()"
+    >
+      Devam et
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE AYARLARI
+   ===================================================== */
+
+/*
+   BURASI SENİN GERÇEK PROJE BİLGİLERİN
+*/
+
+const SUPABASE_URL =
+  "https://bhjninnczvbtrbkbytpg.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_O1dyf1Jj32HjubhgoKPbBw_CJgFH5Lq";
+
+
+/*
+   MİŞA KAYIT ID
+*/
+
+const MISA_ID = 1;
+
+
+/* =====================================================
+   DEĞİŞKENLER
+   ===================================================== */
+
+let misa = null;
+
+let busy = false;
+
+let pollingTimer = null;
+
+let toastTimer = null;
+
+let lastActivityText =
+  "Henüz aktivite yok.";
+
+
+/* =====================================================
+   CLAMP
+   ===================================================== */
+
+function clamp(value) {
+
+  const number =
+    Number(value);
+
+  if (Number.isNaN(number)) {
+    return 0;
+  }
+
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      number
+    )
+  );
+}
+
+
+/* =====================================================
+   LEVEL
+   ===================================================== */
+
+function getLevel(xp) {
+
+  return (
+    Math.floor(
+      (Number(xp) || 0) / 100
+    ) + 1
+  );
+}
+
+
+/* =====================================================
+   LEVEL XP
+   ===================================================== */
+
+function getLevelXP(xp) {
+
+  return (
+    (Number(xp) || 0) % 100
+  );
+}
+
+
+/* =====================================================
+   STAGE
+   ===================================================== */
+
+function getStage(level) {
+
+  if (level >= 20) {
+
+    return "👑 Efsane Mişa";
+  }
+
+  if (level >= 15) {
+
+    return "🌟 Usta Mişa";
+  }
+
+  if (level >= 10) {
+
+    return "🏆 Büyük Mişa";
+  }
+
+  if (level >= 5) {
+
+    return "🐱 Genç Mişa";
+  }
+
+  return "Minik Yavru";
+}
+
+
+/* =====================================================
+   API URL
+   ===================================================== */
+
+function buildApiUrl(
+  table,
+  query = ""
+) {
+
+  return (
+    SUPABASE_URL +
+    "/rest/v1/" +
+    table +
+    "?apikey=" +
+    encodeURIComponent(
+      SUPABASE_KEY
+    ) +
+    query
+  );
+}
+
+
+/* =====================================================
+   REST GET
+   ===================================================== */
+
+async function apiGet(
+  table,
+  query = ""
+) {
+
+  const url =
+    buildApiUrl(
+      table,
+      query
+    );
+
+  console.log(
+    "GET:",
+    url
+  );
+
+  const response =
+    await fetch(
+      url,
+      {
+        method: "GET",
+
+        headers: {
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Accept":
+            "application/json"
+        },
+
+        cache: "no-store"
+      }
+    );
+
+
+  const text =
+    await response.text();
+
+
+  console.log(
+    "GET STATUS:",
+    response.status
+  );
+
+  console.log(
+    "GET RESPONSE:",
+    text
+  );
+
+
+  let data;
+
+  try {
+
+    data =
+      text
+        ? JSON.parse(text)
+        : null;
+
+  } catch {
+
+    data =
+      text;
+  }
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "Supabase HTTP " +
+      response.status +
+      ": " +
+      text
+    );
+  }
+
+
+  return data;
+}
+
+
+/* =====================================================
+   REST PATCH
+   ===================================================== */
+
+async function apiPatch(
+  table,
+  query,
+  payload
+) {
+
+  const url =
+    buildApiUrl(
+      table,
+      query
+    );
+
+
+  console.log(
+    "PATCH:",
+    url
+  );
+
+
+  const response =
+    await fetch(
+      url,
+      {
+        method: "PATCH",
+
+        headers: {
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Content-Type":
+            "application/json",
+
+          "Accept":
+            "application/json",
+
+          "Prefer":
+            "return=representation"
+        },
+
+        body:
+          JSON.stringify(
+            payload
+          )
+      }
+    );
+
+
+  const text =
+    await response.text();
+
+
+  console.log(
+    "PATCH STATUS:",
+    response.status
+  );
+
+  console.log(
+    "PATCH RESPONSE:",
+    text
+  );
+
+
+  let data;
+
+  try {
+
+    data =
+      text
+        ? JSON.parse(text)
+        : null;
+
+  } catch {
+
+    data =
+      text;
+  }
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "Supabase HTTP " +
+      response.status +
+      ": " +
+      text
+    );
+  }
+
+
+  return data;
+}
+
+
+/* =====================================================
+   REST POST
+   ===================================================== */
+
+async function apiPost(
+  table,
+  payload
+) {
+
+  const url =
+    buildApiUrl(
+      table
+    );
+
+
+  console.log(
+    "POST:",
+    url
+  );
+
+
+  const response =
+    await fetch(
+      url,
+      {
+        method: "POST",
+
+        headers: {
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Content-Type":
+            "application/json",
+
+          "Accept":
+            "application/json",
+
+          "Prefer":
+            "return=representation"
+        },
+
+        body:
+          JSON.stringify(
+            payload
+          )
+      }
+    );
+
+
+  const text =
+    await response.text();
+
+
+  console.log(
+    "POST STATUS:",
+    response.status
+  );
+
+  console.log(
+    "POST RESPONSE:",
+    text
+  );
+
+
+  let data;
+
+  try {
+
+    data =
+      text
+        ? JSON.parse(text)
+        : null;
+
+  } catch {
+
+    data =
+      text;
+  }
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "Supabase HTTP " +
+      response.status +
+      ": " +
+      text
+    );
+  }
+
+
+  return data;
+}
+
+
+/* =====================================================
+   SYNC MESAJI
+   ===================================================== */
+
+function syncmsg(
+  ok,
+  text
+) {
+
+  const dot =
+    document.getElementById(
+      "dot"
+    );
+
+  const sync =
+    document.getElementById(
+      "sync"
+    );
+
+  const connection =
+    document.getElementById(
+      "connectionText"
+    );
+
+
+  if (dot) {
+
+    dot.className =
+      ok
+        ? "dot"
+        : "dot off";
+  }
+
+
+  if (sync) {
+
+    sync.textContent =
+      text;
+  }
+
+
+  if (connection) {
+
+    connection.textContent =
+      ok
+
+        ? "🟢 Supabase bağlantısı aktif."
+
+        : "🔴 Supabase bağlantısı kurulamadı.";
+  }
+}
+
+
+/* =====================================================
+   HATA GÖSTER
+   ===================================================== */
+
+function showError(
+  error,
+  detail = ""
+) {
+
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
+
+  const text =
+    document.getElementById(
+      "errorText"
+    );
+
+  const detailBox =
+    document.getElementById(
+      "errorDetail"
+    );
+
+
+  if (!box || !text)
+    return;
+
+
+  let message =
+    "Bilinmeyen hata";
+
+
+  if (error) {
+
+    if (
+      error.message
+    ) {
+
+      message =
+        error.message;
+
+    }
+
+    else if (
+      typeof error ===
+      "string"
+    ) {
+
+      message =
+        error;
+
+    }
+
+    else {
+
+      try {
+
+        message =
+          JSON.stringify(
+            error
+          );
+
+      } catch {
+
+        message =
+          String(error);
+      }
+    }
+  }
+
+
+  text.textContent =
+    message;
+
+
+  if (detailBox) {
+
+    detailBox.textContent =
+      detail;
+  }
+
+
+  box.classList.add(
+    "show"
+  );
+}
+
+
+/* =====================================================
+   HATA GİZLE
+   ===================================================== */
+
+function hideError() {
+
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
+
+
+  if (box) {
+
+    box.classList.remove(
+      "show"
+    );
+  }
+}
+
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+
+function msg(text) {
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  if (!toast)
+    return;
+
+
+  toast.textContent =
+    text;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      function() {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      2200
+    );
+}
+
+
+/* =====================================================
+   MİŞA VERİSİNİ YÜKLE
+   ===================================================== */
+
+async function loadMisa() {
+
+  if (busy)
+    return;
+
+
+  try {
+
+    const data =
+      await apiGet(
+        "misa_state",
+        "&id=eq." +
+        MISA_ID +
+        "&select=*"
+      );
+
+
+    if (
+      !Array.isArray(data)
+      ||
+      data.length === 0
+    ) {
+
+      throw new Error(
+        "misa_state tablosunda id=1 bulunamadı."
+      );
+    }
+
+
+    const row =
+      data[0];
+
+
+    misa = {
+
+      ...row,
+
+      xp:
+        Number(row.xp) || 0,
+
+      hunger:
+        clamp(row.hunger),
+
+      energy:
+        clamp(row.energy),
+
+      happiness:
+        clamp(row.happiness),
+
+      total_actions:
+        Number(
+          row.total_actions
+        ) || 0
+    };
+
+
+    misa.level =
+      getLevel(
+        misa.xp
+      );
+
+
+    misa.stage =
+      getStage(
+        misa.level
+      );
+
+
+    render();
+
+
+    hideError();
+
+
+    syncmsg(
+      true,
+      "Ortak kayıt aktif · Mişa senkronize."
+    );
+
+
+    console.log(
+      "MİŞA YÜKLENDİ:",
+      misa
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "MİŞA YÜKLEME HATASI:",
+      error
+    );
+
+
+    syncmsg(
+      false,
+      "Mişa verisi alınamadı."
+    );
+
+
+    showError(
+      error,
+      "Supabase REST API üzerinden misa_state okunamadı."
+    );
+  }
+}
+
+
+/* =====================================================
+   MİŞA KAYDET
+   ===================================================== */
+
+async function saveMisa() {
+
+  if (!misa)
+    return false;
+
+
+  try {
+
+    const level =
+      getLevel(
+        misa.xp
+      );
+
+
+    const payload = {
+
+      name:
+        misa.name ||
+        "Mişa",
+
+      xp:
+        Number(
+          misa.xp
+        ) || 0,
+
+      level:
+        level,
+
+      hunger:
+        clamp(
+          misa.hunger
+        ),
+
+      energy:
+        clamp(
+          misa.energy
+        ),
+
+      happiness:
+        clamp(
+          misa.happiness
+        ),
+
+      stage:
+        getStage(
+          level
+        ),
+
+      total_actions:
+        Number(
+          misa.total_actions
+        ) || 0,
+
+      updated_at:
+        new Date()
+          .toISOString()
+    };
+
+
+    const data =
+      await apiPatch(
+        "misa_state",
+        "&id=eq." +
+        MISA_ID,
+        payload
+      );
+
+
+    if (
+      !Array.isArray(data)
+      ||
+      data.length === 0
+    ) {
+
+      throw new Error(
+        "Mişa kaydedilemedi. UPDATE RLS policy kontrol edilmeli."
+      );
+    }
+
+
+    const row =
+      data[0];
+
+
+    misa = {
+
+      ...row,
+
+      xp:
+        Number(row.xp) || 0,
+
+      hunger:
+        clamp(row.hunger),
+
+      energy:
+        clamp(row.energy),
+
+      happiness:
+        clamp(row.happiness),
+
+      total_actions:
+        Number(
+          row.total_actions
+        ) || 0
+    };
+
+
+    misa.level =
+      getLevel(
+        misa.xp
+      );
+
+
+    misa.stage =
+      getStage(
+        misa.level
+      );
+
+
+    return true;
+
+
+  } catch (error) {
+
+    console.error(
+      "MİŞA KAYIT HATASI:",
+      error
+    );
+
+
+    showError(
+      error,
+      "misa_state UPDATE işlemi başarısız."
+    );
+
+
+    syncmsg(
+      false,
+      "Mişa kaydedilemedi."
+    );
+
+
+    return false;
+  }
+}
+
+
+/* =====================================================
+   AKTİVİTE KAYDET
+   ===================================================== */
+
+async function saveAction(
+  type,
+  xpGain,
+  changes
+) {
+
+  try {
+
+    await apiPost(
+      "pet_actions",
+      {
+
+        pet_id:
+          MISA_ID,
+
+        action_type:
+          type,
+
+        xp_gained:
+          xpGain,
+
+        hunger_change:
+          changes.hunger,
+
+        energy_change:
+          changes.energy,
+
+        happiness_change:
+          changes.happiness
+      }
+    );
+
+
+    return true;
+
+
+  } catch (error) {
+
+    console.warn(
+      "Aktivite kaydı yapılamadı:",
+      error
+    );
+
+
+    /*
+      Ana Mişa kaydı başarılıysa
+      aktivite kaydı başarısız olsa bile
+      oyunu durdurmuyoruz.
+    */
+
+    return false;
+  }
+}
+
+
+/* =====================================================
+   AKTİVİTE ADI
+   ===================================================== */
+
+function actionName(type) {
+
+  if (
+    type === "feed"
+  ) {
+
+    return "🍖 Besledi";
+  }
+
+
+  if (
+    type === "play"
+  ) {
+
+    return "🎾 Oynadı";
+  }
+
+
+  if (
+    type === "love"
+  ) {
+
+    return "❤️ Sevdi";
+  }
+
+
+  if (
+    type === "rest"
+  ) {
+
+    return "😴 Dinlendirdi";
+  }
+
+
+  return "🐱 Mişa ile ilgilendi";
+}
+
+
+/* =====================================================
+   BUTONLARI KİLİTLE
+   ===================================================== */
+
+function setButtonsDisabled(
+  disabled
+) {
+
+  document
+    .querySelectorAll(
+      ".action-btn"
+    )
+    .forEach(
+      function(button) {
+
+        button.disabled =
+          disabled;
+
+      }
+    );
+}
+
+
+/* =====================================================
+   AKSİYON
+   ===================================================== */
+
+async function act(type) {
+
+  if (
+    !misa ||
+    busy
+  ) {
+
+    return;
+  }
+
+
+  busy = true;
+
+
+  setButtonsDisabled(
+    true
+  );
+
+
+  try {
+
+    const oldLevel =
+      getLevel(
+        misa.xp
+      );
+
+
+    let xpGain = 0;
+
+
+    const changes = {
+
+      hunger: 0,
+
+      energy: 0,
+
+      happiness: 0
+    };
+
+
+    /* =================================================
+       BESLE
+       ================================================= */
+
+    if (
+      type === "feed"
+    ) {
+
+      if (
+        Number(
+          misa.hunger
+        ) >= 100
+      ) {
+
+        msg(
+          "Mişa'nın karnı zaten tok 🥰"
+        );
+
+        return;
+      }
+
+
+      const amount =
+        Math.min(
+          18,
+          100 -
+          misa.hunger
+        );
+
+
+      misa.hunger =
+        clamp(
+          misa.hunger +
+          amount
+        );
+
+
+      misa.happiness =
+        clamp(
+          misa.happiness +
+          3
+        );
+
+
+      misa.xp += 10;
+
+
+      changes.hunger =
+        amount;
+
+
+      changes.happiness =
+        3;
+
+
+      xpGain =
+        10;
+    }
+
+
+    /* =================================================
+       OYNA
+       ================================================= */
+
+    else if (
+      type === "play"
+    ) {
+
+      if (
+        Number(
+          misa.energy
+        ) < 10
+      ) {
+
+        msg(
+          "Mişa çok yorgun 😴"
+        );
+
+        return;
+      }
+
+
+      misa.energy =
+        clamp(
+          misa.energy -
+          10
+        );
+
+
+      misa.hunger =
+        clamp(
+          misa.hunger -
+          5
+        );
+
+
+      misa.happiness =
+        clamp(
+          misa.happiness +
+          12
+        );
+
+
+      misa.xp += 15;
+
+
+      changes.energy =
+        -10;
+
+
+      changes.hunger =
+        -5;
+
+
+      changes.happiness =
+        12;
+
+
+      xpGain =
+        15;
+    }
+
+
+    /* =================================================
+       SEV
+       ================================================= */
+
+    else if (
+      type === "love"
+    ) {
+
+      misa.happiness =
+        clamp(
+          misa.happiness +
+          10
+        );
+
+
+      misa.xp += 10;
+
+
+      changes.happiness =
+        10;
+
+
+      xpGain =
+        10;
+    }
+
+
+    /* =================================================
+       DİNLENDİR
+       ================================================= */
+
+    else if (
+      type === "rest"
+    ) {
+
+      const amount =
+        Math.min(
+          20,
+          100 -
+          misa.energy
+        );
+
+
+      if (
+        amount <= 0
+      ) {
+
+        msg(
+          "Mişa'nın enerjisi zaten dolu ⚡"
+        );
+
+        return;
+      }
+
+
+      misa.energy =
+        clamp(
+          misa.energy +
+          amount
+        );
+
+
+      misa.happiness =
+        clamp(
+          misa.happiness +
+          3
+        );
+
+
+      misa.xp += 8;
+
+
+      changes.energy =
+        amount;
+
+
+      changes.happiness =
+        3;
+
+
+      xpGain =
+        8;
+    }
+
+
+    /* =================================================
+       GENEL
+       ================================================= */
+
+    misa.total_actions =
+      (
+        Number(
+          misa.total_actions
+        ) || 0
+      ) + 1;
+
+
+    misa.level =
+      getLevel(
+        misa.xp
+      );
+
+
+    misa.stage =
+      getStage(
+        misa.level
+      );
+
+
+    lastActivityText =
+      actionName(
+        type
+      );
+
+
+    /* =================================================
+       ÖNCE MİŞA KAYDI
+       ================================================= */
+
+    const saved =
+      await saveMisa();
+
+
+    if (!saved) {
+
+      return;
+    }
+
+
+    /* =================================================
+       SONRA AKTİVİTE KAYDI
+       ================================================= */
+
+    await saveAction(
+      type,
+      xpGain,
+      changes
+    );
+
+
+    render();
+
+
+    /* =================================================
+       LEVEL UP
+       ================================================= */
+
+    if (
+      misa.level >
+      oldLevel
+    ) {
+
+      showLevelUp(
+        misa.level
+      );
+
+    } else {
+
+      msg(
+        actionName(type) +
+        " · +" +
+        xpGain +
+        " XP"
+      );
+    }
+
+
+    syncmsg(
+      true,
+      "Mişa kaydedildi ❤️"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "AKSİYON HATASI:",
+      error
+    );
+
+
+    showError(
+      error,
+      "Mişa aktivitesi sırasında hata oluştu."
+    );
+
+
+    msg(
+      "İşlem sırasında hata oluştu."
+    );
+
+
+  } finally {
+
+    busy = false;
+
+
+    setButtonsDisabled(
+      false
+    );
+  }
+}
+
+
+/* =====================================================
+   RENDER
+   ===================================================== */
+
+function render() {
+
+  if (!misa)
+    return;
+
+
+  const level =
+    getLevel(
+      misa.xp
+    );
+
+
+  const currentXP =
+    getLevelXP(
+      misa.xp
+    );
+
+
+  /* İSİM */
+
+  const petName =
+    document.getElementById(
+      "petName"
+    );
+
+
+  if (petName) {
+
+    petName.textContent =
+      misa.name ||
+      "Mişa";
+  }
+
+
+  /* STAGE */
+
+  const petStage =
+    document.getElementById(
+      "petStage"
+    );
+
+
+  if (petStage) {
+
+    petStage.textContent =
+      misa.stage ||
+      getStage(
+        level
+      );
+  }
+
+
+  /* LEVEL */
+
+  const levelTitle =
+    document.getElementById(
+      "levelTitle"
+    );
+
+
+  if (levelTitle) {
+
+    levelTitle.textContent =
+      "Seviye " +
+      level;
+  }
+
+
+  /* XP */
+
+  const xpText =
+    document.getElementById(
+      "xpText"
+    );
+
+
+  if (xpText) {
+
+    xpText.textContent =
+      currentXP +
+      " / 100 XP";
+  }
+
+
+  const xpFill =
+    document.getElementById(
+      "xpFill"
+    );
+
+
+  if (xpFill) {
+
+    xpFill.style.width =
+      currentXP +
+      "%";
+  }
+
+
+  /* AKTİVİTE */
+
+  const activityCount =
+    document.getElementById(
+      "activityCount"
+    );
+
+
+  if (activityCount) {
+
+    activityCount.textContent =
+      (
+        Number(
+          misa.total_actions
+        ) || 0
+      ) +
+      " aktivite";
+  }
+
+
+  /* AÇLIK */
+
+  const hunger =
+    document.getElementById(
+      "hunger"
+    );
+
+
+  if (hunger) {
+
+    hunger.textContent =
+      Math.round(
+        clamp(
+          misa.hunger
+        )
+      );
+  }
+
+
+  /* ENERJİ */
+
+  const energy =
+    document.getElementById(
+      "energy"
+    );
+
+
+  if (energy) {
+
+    energy.textContent =
+      Math.round(
+        clamp(
+          misa.energy
+        )
+      );
+  }
+
+
+  /* MUTLULUK */
+
+  const happiness =
+    document.getElementById(
+      "happiness"
+    );
+
+
+  if (happiness) {
+
+    happiness.textContent =
+      Math.round(
+        clamp(
+          misa.happiness
+        )
+      );
+  }
+
+
+  /* GELİŞİM */
+
+  const development =
+    document.getElementById(
+      "development"
+    );
+
+
+  if (development) {
+
+    if (
+      level >= 20
+    ) {
+
+      development.textContent =
+        "Mişa artık efsaneleşti! 👑";
+
+    }
+
+    else if (
+      level >= 15
+    ) {
+
+      development.textContent =
+        "Mişa artık gerçek bir usta! 🌟";
+
+    }
+
+    else if (
+      level >= 10
+    ) {
+
+      development.textContent =
+        "Mişa büyüyor ve dünyasını keşfediyor. 🏆";
+
+    }
+
+    else if (
+      level >= 5
+    ) {
+
+      development.textContent =
+        "Mişa gençlik dönemine adım attı. 🐱";
+
+    }
+
+    else {
+
+      development.textContent =
+        "Mişa yeni dünyasını keşfetmeye başladı.";
+    }
+  }
+
+
+  /* SON AKTİVİTE */
+
+  const lastActivity =
+    document.getElementById(
+      "lastActivity"
+    );
+
+
+  if (lastActivity) {
+
+    lastActivity.textContent =
+      lastActivityText;
+  }
+}
+
+
+/* =====================================================
+   LEVEL UP
+   ===================================================== */
+
+function showLevelUp(
+  level
+) {
+
+  const modal =
+    document.getElementById(
+      "modal"
+    );
+
+
+  const modalTitle =
+    document.getElementById(
+      "modalTitle"
+    );
+
+
+  const modalText =
+    document.getElementById(
+      "modalText"
+    );
+
+
+  if (!modal)
+    return;
+
+
+  if (modalTitle) {
+
+    modalTitle.textContent =
+      "Seviye atladın! 🎉";
+  }
+
+
+  if (modalText) {
+
+    modalText.textContent =
+      "Mişa artık Seviye " +
+      level +
+      "! 🐱❤️";
+  }
+
+
+  modal.classList.add(
+    "show"
+  );
+}
+
+
+/* =====================================================
+   MODAL KAPAT
+   ===================================================== */
+
+function closeModal() {
+
+  const modal =
+    document.getElementById(
+      "modal"
+    );
+
+
+  if (modal) {
+
+    modal.classList.remove(
+      "show"
+    );
+  }
+}
+
+
+/* =====================================================
+   BAŞLANGIÇ
+   ===================================================== */
+
+async function startMisa() {
+
+  console.log(
+    "================================="
+  );
+
+  console.log(
+    "MİŞA'NIN DÜNYASI BAŞLIYOR"
+  );
+
+  console.log(
+    "SUPABASE URL:",
+    SUPABASE_URL
+  );
+
+  console.log(
+    "================================="
+  );
+
+
+  syncmsg(
+    false,
+    "Supabase bağlanıyor..."
+  );
+
+
+  await loadMisa();
+}
+
+
+/* =====================================================
+   OTOMATİK SENKRON
+   ===================================================== */
+
+function startPolling() {
+
+  clearInterval(
+    pollingTimer
+  );
+
+
+  pollingTimer =
+    setInterval(
+      async function() {
+
+        if (!busy) {
+
+          await loadMisa();
+        }
+
+      },
+      5000
+    );
+}
+
+
+/* =====================================================
+   SAYFA HAZIR
+   ===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function() {
+
+    await startMisa();
+
+    startPolling();
+
+  }
+);
+
+</script>
+
+
+</body>
+
+</html>
