@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Özlem ve Mehmet'in Evcil Hayvanı Mişa</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(255,220,220,.45),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(220,215,255,.45),transparent 30%),
+        linear-gradient(180deg,#fff9f7 0%,#f7f3ff 100%);
+    color:#292332;
+    min-height:100vh;
+}
+
+button{
+    font-family:inherit;
+}
+
+.app{
+    width:100%;
+    max-width:720px;
+    margin:auto;
+    padding:18px 14px 60px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0;
+    font-size:30px;
+    line-height:1.15;
+    font-weight:900;
+}
+
+.header .subtitle{
+    margin:8px 0 0;
+    font-size:17px;
+    color:#746c7b;
+    font-weight:600;
+}
+
+.header .relationship{
+    margin:6px 0 0;
+    color:#b46b8d;
+    font-size:14px;
+    font-weight:700;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.top-info{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:9px;
+    margin-bottom:15px;
+}
+
+.info-box{
+    background:rgba(255,255,255,.9);
+    border-radius:18px;
+    padding:11px 8px;
+    text-align:center;
+    box-shadow:0 7px 22px rgba(60,40,80,.06);
+}
+
+.info-icon{
+    font-size:19px;
+}
+
+.info-label{
+    font-size:11px;
+    color:#8c8492;
+    margin-top:2px;
+}
+
+.info-value{
+    font-weight:800;
+    font-size:15px;
+    margin-top:2px;
+}
+
+/* =========================
+   PET CARD
+========================= */
+
+.pet-card{
+    background:rgba(255,255,255,.96);
+    border-radius:32px;
+    padding:18px 15px 20px;
+    box-shadow:0 15px 45px rgba(70,50,90,.10);
+    margin-bottom:15px;
+    overflow:hidden;
+}
+
+.pet-area{
+    position:relative;
+    height:320px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.floor{
+    position:absolute;
+    bottom:17px;
+    width:285px;
+    height:42px;
+    border-radius:50%;
+    background:#ededf2;
+}
+
+.cat{
+    position:relative;
+    width:250px;
+    height:275px;
+    z-index:2;
+    transition:transform .25s ease;
+}
+
+.cat.bounce{
+    animation:bounce .55s ease;
+}
+
+.cat.happy{
+    animation:happy .7s ease;
+}
+
+.cat.sleeping{
+    transform:translateY(15px) scale(.97);
+}
+
+@keyframes bounce{
+    0%{transform:translateY(0)}
+    35%{transform:translateY(-22px) rotate(-3deg)}
+    65%{transform:translateY(-8px) rotate(3deg)}
+    100%{transform:translateY(0)}
+}
+
+@keyframes happy{
+    0%{transform:scale(1)}
+    25%{transform:scale(1.08) rotate(-3deg)}
+    50%{transform:scale(1.08) rotate(3deg)}
+    100%{transform:scale(1)}
+}
+
+/* tail */
+
+.tail{
+    position:absolute;
+    width:105px;
+    height:110px;
+    border:20px solid #c98555;
+    border-left-color:transparent;
+    border-radius:50%;
+    right:-2px;
+    top:125px;
+    transform:rotate(-15deg);
+    z-index:0;
+}
+
+/* ears */
+
+.ear{
+    position:absolute;
+    width:67px;
+    height:88px;
+    background:#d99565;
+    top:1px;
+    border-radius:45px 45px 15px 15px;
+    z-index:2;
+}
+
+.ear.left{
+    left:34px;
+    transform:rotate(-20deg);
+}
+
+.ear.right{
+    right:34px;
+    transform:rotate(20deg);
+}
+
+.ear:after{
+    content:"";
+    position:absolute;
+    width:39px;
+    height:56px;
+    background:#f1aaa5;
+    border-radius:30px 30px 10px 10px;
+    left:14px;
+    top:14px;
+}
+
+/* body */
+
+.body{
+    position:absolute;
+    width:138px;
+    height:148px;
+    background:#dda071;
+    border-radius:62px 62px 46px 46px;
+    left:56px;
+    top:147px;
+    z-index:1;
+}
+
+/* head */
+
+.head{
+    position:absolute;
+    width:184px;
+    height:168px;
+    left:33px;
+    top:39px;
+    background:#e5a775;
+    border-radius:48% 48% 45% 45%;
+    z-index:3;
+}
+
+/* eyes */
+
+.eye{
+    position:absolute;
+    width:26px;
+    height:39px;
+    background:#292332;
+    border-radius:50%;
+    top:70px;
+}
+
+.eye.left{
+    left:48px;
+}
+
+.eye.right{
+    right:48px;
+}
+
+.eye:after{
+    content:"";
+    position:absolute;
+    width:7px;
+    height:7px;
+    background:white;
+    border-radius:50%;
+    top:7px;
+    left:6px;
+}
+
+/* nose */
+
+.nose{
+    position:absolute;
+    width:25px;
+    height:17px;
+    background:#a95769;
+    border-radius:50%;
+    left:79px;
+    top:113px;
+}
+
+/* mouth */
+
+.mouth{
+    position:absolute;
+    width:33px;
+    height:15px;
+    border-bottom:2px solid #6c4242;
+    border-radius:50%;
+    left:74px;
+    top:128px;
+}
+
+/* paws */
+
+.paw{
+    position:absolute;
+    width:63px;
+    height:41px;
+    background:#e8ae7d;
+    border-radius:50%;
+    top:221px;
+    z-index:5;
+}
+
+.paw.left{
+    left:35px;
+}
+
+.paw.right{
+    right:35px;
+}
+
+/* =========================
+   PET DETAILS
+========================= */
+
+.pet-name{
+    text-align:center;
+    font-size:27px;
+    font-weight:900;
+}
+
+.evolution{
+    text-align:center;
+    margin-top:3px;
+    color:#8a718f;
+    font-weight:700;
+}
+
+.level-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:13px;
+}
+
+.level{
+    font-weight:900;
+    font-size:18px;
+}
+
+.xp-text{
+    color:#77717f;
+    font-size:14px;
+}
+
+.xp-bar{
+    width:100%;
+    height:13px;
+    background:#eeeef2;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:8px;
+}
+
+.xp-fill{
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,#9b7bea,#ed78a6);
+    border-radius:20px;
+    transition:width .4s ease;
+}
+
+.message{
+    text-align:center;
+    min-height:23px;
+    margin:13px 0 0;
+    color:#756b7c;
+    font-size:14px;
+    font-weight:700;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.card{
+    background:rgba(255,255,255,.96);
+    border-radius:26px;
+    padding:19px;
+    margin-bottom:15px;
+    box-shadow:0 10px 32px rgba(70,50,90,.07);
+}
+
+.card-title{
+    font-size:20px;
+    font-weight:900;
+    margin:0 0 15px;
+}
+
+.development-small{
+    color:#8c8291;
+    font-size:13px;
+    font-weight:700;
+}
+
+.development-title{
+    font-size:24px;
+    font-weight:900;
+    margin:3px 0;
+}
+
+.development-text{
+    margin:4px 0 0;
+    color:#77717f;
+    font-size:14px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stat{
+    margin-bottom:16px;
+}
+
+.stat:last-child{
+    margin-bottom:0;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:6px;
+    font-weight:700;
+}
+
+.stat-bar{
+    height:12px;
+    background:#eeeef2;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.stat-fill{
+    height:100%;
+    width:80%;
+    border-radius:20px;
+    transition:width .35s ease;
+}
+
+.hunger{
+    background:#f3a16a;
+}
+
+.energy{
+    background:#78a8eb;
+}
+
+.happiness{
+    background:#e982aa;
+}
+
+.cleanliness{
+    background:#6cc4ad;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.action-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.action-btn{
+    border:0;
+    border-radius:17px;
+    padding:15px 8px;
+    background:#f5f1fa;
+    color:#342d3d;
+    font-size:15px;
+    font-weight:800;
+    transition:transform .12s ease,background .12s ease;
+}
+
+.action-btn:active{
+    transform:scale(.95);
+}
+
+.action-btn.disabled{
+    opacity:.45;
+    pointer-events:none;
+}
+
+/* =========================
+   DAILY
+========================= */
+
+.daily-card{
+    position:relative;
+}
+
+.daily-progress{
+    height:9px;
+    background:#eeeef2;
+    border-radius:20px;
+    overflow:hidden;
+    margin:10px 0 13px;
+}
+
+.daily-fill{
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,#f0a76b,#e879a9);
+    transition:width .3s ease;
+}
+
+.daily-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 0;
+    border-bottom:1px solid #f0edf2;
+}
+
+.daily-item:last-child{
+    border-bottom:0;
+}
+
+.daily-check{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:#f0edf4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-shrink:0;
+}
+
+.daily-item.done .daily-check{
+    background:#76c7a9;
+    color:white;
+}
+
+.daily-name{
+    flex:1;
+    font-size:14px;
+    font-weight:700;
+}
+
+.daily-reward{
+    color:#9a7899;
+    font-size:12px;
+    font-weight:800;
+}
+
+/* =========================
+   ACHIEVEMENTS
+========================= */
+
+.achievement-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.achievement{
+    background:#f7f4f9;
+    border-radius:17px;
+    padding:12px;
+    opacity:.45;
+}
+
+.achievement.unlocked{
+    opacity:1;
+    background:#fff5dc;
+}
+
+.achievement-icon{
+    font-size:23px;
+}
+
+.achievement-name{
+    font-size:13px;
+    font-weight:900;
+    margin-top:4px;
+}
+
+.achievement-desc{
+    font-size:11px;
+    color:#817987;
+    margin-top:3px;
+}
+
+/* =========================
+   INVENTORY
+========================= */
+
+.inventory-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+}
+
+.inventory-item{
+    text-align:center;
+    background:#f7f4f9;
+    border-radius:17px;
+    padding:12px 5px;
+}
+
+.inventory-icon{
+    font-size:27px;
+}
+
+.inventory-count{
+    font-weight:900;
+    font-size:14px;
+    margin-top:3px;
+}
+
+/* =========================
+   LEVEL POPUP
+========================= */
+
+.level-popup{
+    position:fixed;
+    inset:0;
+    background:rgba(35,28,45,.52);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:20px;
+}
+
+.level-popup.show{
+    display:flex;
+}
+
+.level-popup-box{
+    width:100%;
+    max-width:360px;
+    background:white;
+    border-radius:30px;
+    padding:30px 22px;
+    text-align:center;
+    animation:popup .35s ease;
+    box-shadow:0 25px 70px rgba(0,0,0,.22);
+}
+
+@keyframes popup{
+    from{
+        transform:scale(.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.popup-icon{
+    font-size:58px;
+}
+
+.popup-title{
+    font-size:27px;
+    font-weight:900;
+    margin:7px 0;
+}
+
+.popup-text{
+    color:#766d7d;
+    font-weight:600;
+    line-height:1.5;
+}
+
+.popup-button{
+    margin-top:18px;
+    width:100%;
+    padding:14px;
+    border-radius:16px;
+    background:#292332;
+    color:white;
+    font-size:15px;
+    font-weight:800;
+}
+
+/* =========================
+   RESET
+========================= */
+
+.reset{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#aaa1ad;
+    padding:13px;
+    font-size:12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:480px){
+
+    .header h1{
+        font-size:27px;
+    }
+
+    .top-info{
+        gap:6px;
+    }
+
+    .info-box{
+        padding:9px 5px;
+    }
+
+    .info-value{
+        font-size:13px;
+    }
+
+    .pet-area{
+        height:300px;
+    }
+
+    .achievement-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+    <h1>🐱 Mişa'nın Dünyası</h1>
+
+    <div class="subtitle">
+        Özlem ve Mehmet'in Evcil Hayvanı Mişa
+    </div>
+
+    <div class="relationship">
+        ❤️ Birlikte büyüttüğünüz sanal evcil hayvan
+    </div>
+
+</header>
+
+
+<!-- TOP INFORMATION -->
+
+<div class="top-info">
+
+    <div class="info-box">
+        <div class="info-icon">🪙</div>
+        <div class="info-label">Coin</div>
+        <div class="info-value" id="coinValue">0</div>
+    </div>
+
+    <div class="info-box">
+        <div class="info-icon">🔥</div>
+        <div class="info-label">Seri</div>
+        <div class="info-value" id="streakValue">0 gün</div>
+    </div>
+
+    <div class="info-box">
+        <div class="info-icon">🏆</div>
+        <div class="info-label">Başarı</div>
+        <div class="info-value" id="achievementValue">0</div>
+    </div>
+
+</div>
+
+
+<!-- PET -->
+
+<section class="pet-card">
+
+    <div class="pet-area">
+
+        <div class="floor"></div>
+
+        <div class="cat" id="cat">
+
+            <div class="tail"></div>
+
+            <div class="ear left"></div>
+            <div class="ear right"></div>
+
+            <div class="body"></div>
+
+            <div class="head">
+
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+
+                <div class="nose"></div>
+                <div class="mouth"></div>
+
+            </div>
+
+            <div class="paw left"></div>
+            <div class="paw right"></div>
+
+        </div>
+
+    </div>
+
+    <div class="pet-name">
+        Mişa
+    </div>
+
+    <div class="evolution" id="evolution">
+        🐾 Minik Yavru
+    </div>
+
+    <div class="level-row">
+
+        <div class="level" id="levelText">
+            Seviye 1
+        </div>
+
+        <div class="xp-text" id="xpText">
+            0 / 100 XP
+        </div>
+
+    </div>
+
+    <div class="xp-bar">
+        <div class="xp-fill" id="xpFill"></div>
+    </div>
+
+    <div class="message" id="message">
+        Mişa sizinle ilgilenmenizi bekliyor 🐱
+    </div>
+
+</section>
+
+
+<!-- DEVELOPMENT -->
+
+<section class="card">
+
+    <div class="development-small">
+        Mişa'nın gelişimi
+    </div>
+
+    <div class="development-title" id="developmentTitle">
+        🐾 Minik Yavru
+    </div>
+
+    <div class="development-text" id="developmentText">
+        Mişa yeni dünyasını keşfetmeye başladı.
+    </div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section class="card">
+
+    <h2 class="card-title">
+        📊 Mişa'nın Durumu
+    </h2>
+
+    <div class="stat">
+
+        <div class="stat-top">
+            <span>🍖 Açlık</span>
+            <span id="hungerValue">80</span>
+        </div>
+
+        <div class="stat-bar">
+            <div class="stat-fill hunger" id="hungerBar"></div>
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-top">
+            <span>⚡ Enerji</span>
+            <span id="energyValue">80</span>
+        </div>
+
+        <div class="stat-bar">
+            <div class="stat-fill energy" id="energyBar"></div>
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-top">
+            <span>😊 Mutluluk</span>
+            <span id="happinessValue">80</span>
+        </div>
+
+        <div class="stat-bar">
+            <div class="stat-fill happiness" id="happinessBar"></div>
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-top">
+            <span>🧼 Temizlik</span>
+            <span id="cleanlinessValue">80</span>
+        </div>
+
+        <div class="stat-bar">
+            <div class="stat-fill cleanliness" id="cleanlinessBar"></div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ACTIONS -->
+
+<section class="card">
+
+    <h2 class="card-title">
+        🐾 Mişa ile ilgilen
+    </h2>
+
+    <div class="action-grid">
+
+        <button class="action-btn" onclick="feed()">
+            🍖 Besle
+        </button>
+
+        <button class="action-btn" onclick="play()">
+            🎾 Oyna
+        </button>
+
+        <button class="action-btn" onclick="sleep()">
+            😴 Uyut
+        </button>
+
+        <button class="action-btn" onclick="cleanPet()">
+            🧼 Temizle
+        </button>
+
+        <button class="action-btn" onclick="petMisa()">
+            ❤️ Sev
+        </button>
+
+        <button class="action-btn" onclick="giveTreat()">
+            🦴 Ödül Ver
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- DAILY TASKS -->
+
+<section class="card daily-card">
+
+    <h2 class="card-title">
+        📋 Günlük Görevler
+    </h2>
+
+    <div id="dailyProgressText">
+        0 / 4 tamamlandı
+    </div>
+
+    <div class="daily-progress">
+        <div class="daily-fill" id="dailyFill"></div>
+    </div>
+
+    <div id="dailyTasks"></div>
+
+</section>
+
+
+<!-- INVENTORY -->
+
+<section class="card">
+
+    <h2 class="card-title">
+        🎒 Çanta
+    </h2>
+
+    <div class="inventory-grid">
+
+        <div class="inventory-item">
+            <div class="inventory-icon">🍖</div>
+            <div>Mama</div>
+            <div class="inventory-count" id="foodCount">5</div>
+        </div>
+
+        <div class="inventory-item">
+            <div class="inventory-icon">🦴</div>
+            <div>Ödül</div>
+            <div class="inventory-count" id="treatCount">3</div>
+        </div>
+
+        <div class="inventory-item">
+            <div class="inventory-icon">🎾</div>
+            <div>Oyuncak</div>
+            <div class="inventory-count" id="toyCount">2</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ACHIEVEMENTS -->
+
+<section class="card">
+
+    <h2 class="card-title">
+        🏆 Başarılar
+    </h2>
+
+    <div class="achievement-grid" id="achievementGrid"></div>
+
+</section>
+
+
+<button class="reset" onclick="resetGame()">
+    Oyunu sıfırla
+</button>
+
+</div>
+
+
+<!-- LEVEL POPUP -->
+
+<div class="level-popup" id="levelPopup">
+
+    <div class="level-popup-box">
+
+        <div class="popup-icon">
+            🎉
+        </div>
+
+        <div class="popup-title">
+            Seviye Atladın!
+        </div>
+
+        <div class="popup-text" id="popupText">
+            Mişa büyüdü!
+        </div>
+
+        <button class="popup-button" onclick="closePopup()">
+            Harika! ❤️
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   MİŞA OYUNU
+===================================================== */
+
+
+/* -------------------------
+   VARSAYILAN OYUN
+------------------------- */
+
+const DEFAULT_GAME = {
+
+    level:1,
+    xp:0,
+
+    hunger:80,
+    energy:80,
+    happiness:80,
+    cleanliness:80,
+
+    coins:50,
+
+    food:5,
+    treats:3,
+    toys:2,
+
+    totalActions:0,
+    totalFeed:0,
+    totalPlay:0,
+    totalClean:0,
+    totalPet:0,
+    totalSleep:0,
+
+    streak:0,
+    lastDay:"",
+
+    dailyDate:"",
+    dailyDone:{
+
+        feed:false,
+        play:false,
+        clean:false,
+        pet:false
+
+    },
+
+    unlockedAchievements:[]
+
+};
+
+
+/* -------------------------
+   OYUNU YÜKLE
+------------------------- */
+
+function loadGame(){
+
+    try{
+
+        const saved =
+            localStorage.getItem("misa_complete_game");
+
+        if(saved){
+
+            const parsed =
+                JSON.parse(saved);
+
+            return {
+
+                ...DEFAULT_GAME,
+                ...parsed,
+
+                dailyDone:{
+                    ...DEFAULT_GAME.dailyDone,
+                    ...(parsed.dailyDone || {})
+                }
+
+            };
+
+        }
+
+    }catch(error){
+
+        console.log(
+            "Kayıt okunamadı:",
+            error
+        );
+
+    }
+
+    return JSON.parse(
+        JSON.stringify(DEFAULT_GAME)
+    );
+
+}
+
+
+let game = loadGame();
+
+
+/* -------------------------
+   KAYDET
+------------------------- */
+
+function saveGame(){
+
+    try{
+
+        localStorage.setItem(
+            "misa_complete_game",
+            JSON.stringify(game)
+        );
+
+    }catch(error){
+
+        console.log(
+            "Kayıt yapılamadı:",
+            error
+        );
+
+    }
+
+}
+
+
+/* -------------------------
+   SINIR
+------------------------- */
+
+function clamp(value){
+
+    return Math.max(
+        0,
+        Math.min(100,Math.round(value))
+    );
+
+}
+
+
+/* -------------------------
+   BUGÜN
+------------------------- */
+
+function todayKey(){
+
+    const d = new Date();
+
+    return d.getFullYear()
+        + "-"
+        + String(d.getMonth()+1).padStart(2,"0")
+        + "-"
+        + String(d.getDate()).padStart(2,"0");
+
+}
+
+
+/* -------------------------
+   GÜNLÜK SİSTEM
+------------------------- */
+
+function checkNewDay(){
+
+    const today =
+        todayKey();
+
+    if(game.dailyDate !== today){
+
+        game.dailyDate = today;
+
+        game.dailyDone = {
+
+            feed:false,
+            play:false,
+            clean:false,
+            pet:false
+
+        };
+
+        updateStreak();
+
+        saveGame();
+
+    }
+
+}
+
+
+/* -------------------------
+   SERİ
+------------------------- */
+
+function updateStreak(){
+
+    const today =
+        todayKey();
+
+    if(!game.lastDay){
+
+        game.streak = 1;
+        game.lastDay = today;
+        return;
+
+    }
+
+    if(game.lastDay === today){
+
+        return;
+
+    }
+
+    const previous =
+        new Date(game.lastDay);
+
+    const current =
+        new Date(today);
+
+    const difference =
+        Math.round(
+            (current - previous) /
+            (1000*60*60*24)
+        );
+
+    if(difference === 1){
+
+        game.streak++;
+
+    }else{
+
+        game.streak = 1;
+
+    }
+
+    game.lastDay = today;
+
+}
+
+
+/* =====================================================
+   XP
+===================================================== */
+
+function addXP(amount){
+
+    const oldLevel =
+        game.level;
+
+    game.xp += amount;
+
+    while(game.xp >= 100){
+
+        game.xp -= 100;
+
+        game.level++;
+
+    }
+
+    saveGame();
+    updateUI();
+
+    if(game.level > oldLevel){
+
+        levelUp(oldLevel);
+
+    }
+
+}
+
+
+/* -------------------------
+   SEVİYE ATLAMA
+------------------------- */
+
+function levelUp(oldLevel){
+
+    const evolution =
+        getEvolution();
+
+    const popup =
+        document.getElementById(
+            "levelPopup"
+        );
+
+    const popupText =
+        document.getElementById(
+            "popupText"
+        );
+
+    popupText.innerHTML =
+        "Mişa <strong>Seviye "
+        + game.level
+        + "</strong> oldu!<br><br>"
+        + evolution.icon
+        + " "
+        + evolution.name;
+
+    popup.classList.add("show");
+
+    animateCat();
+
+    checkAchievements();
+
+}
+
+
+/* -------------------------
+   POPUP KAPAT
+------------------------- */
+
+function closePopup(){
+
+    document
+        .getElementById("levelPopup")
+        .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   EVRİM
+===================================================== */
+
+function getEvolution(){
+
+    if(game.level >= 15){
+
+        return {
+
+            name:"👑 Efsane Mişa",
+            icon:"👑",
+            text:"Mişa artık efsanevi bir evcil hayvan!"
+
+        };
+
+    }
+
+    if(game.level >= 10){
+
+        return {
+
+            name:"🌟 Usta Mişa",
+            icon:"🌟",
+            text:"Mişa artık çok deneyimli ve akıllı!"
+
+        };
+
+    }
+
+    if(game.level >= 7){
+
+        return {
+
+            name:"😺 Akıllı Mişa",
+            icon:"😺",
+            text:"Mişa büyüdü ve dünyayı çok daha iyi tanıyor."
+
+        };
+
+    }
+
+    if(game.level >= 5){
+
+        return {
+
+            name:"😸 Yaramaz Mişa",
+            icon:"😸",
+            text:"Mişa artık oyun oynamayı çok seviyor."
+
+        };
+
+    }
+
+    if(game.level >= 3){
+
+        return {
+
+            name:"🐱 Meraklı Mişa",
+            icon:"🐱",
+            text:"Mişa çevresini keşfetmeye başladı."
+
+        };
+
+    }
+
+    return {
+
+        name:"🐾 Minik Yavru",
+        icon:"🐾",
+        text:"Mişa yeni dünyasını keşfetmeye başladı."
+
+    };
+
+}
+
+
+/* =====================================================
+   MESAJ
+===================================================== */
+
+function showMessage(text){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.textContent =
+        text;
+
+}
+
+
+/* =====================================================
+   ANİMASYON
+===================================================== */
+
+function animateCat(type="bounce"){
+
+    const cat =
+        document.getElementById("cat");
+
+    cat.classList.remove(
+        "bounce",
+        "happy"
+    );
+
+    void cat.offsetWidth;
+
+    cat.classList.add(type);
+
+}
+
+
+/* =====================================================
+   EYLEMLER
+===================================================== */
+
+
+/* BESLE */
+
+function feed(){
+
+    if(game.food <= 0){
+
+        showMessage(
+            "🍖 Mama kalmadı!"
+        );
+
+        return;
+
+    }
+
+    game.food--;
+
+    game.hunger =
+        clamp(game.hunger + 22);
+
+    game.happiness =
+        clamp(game.happiness + 4);
+
+    game.coins += 2;
+
+    game.totalFeed++;
+    game.totalActions++;
+
+    game.dailyDone.feed = true;
+
+    addXP(10);
+
+    showMessage(
+        "🍖 Mişa mamasını afiyetle yedi!"
+    );
+
+    animateCat("happy");
+
+    saveGame();
+    updateUI();
+    checkAchievements();
+
+}
+
+
+/* OYNA */
+
+function play(){
+
+    if(game.energy < 12){
+
+        showMessage(
+            "😴 Mişa çok yorgun. Önce uyuması gerekiyor."
+        );
+
+        return;
+
+    }
+
+    if(game.toys <= 0){
+
+        showMessage(
+            "🎾 Oyuncağın kalmadı."
+        );
+
+        return;
+
+    }
+
+    game.energy =
+        clamp(game.energy - 14);
+
+    game.hunger =
+        clamp(game.hunger - 6);
+
+    game.happiness =
+        clamp(game.happiness + 22);
+
+    game.toys--;
+
+    game.coins += 3;
+
+    game.totalPlay++;
+    game.totalActions++;
+
+    game.dailyDone.play = true;
+
+    addXP(15);
+
+    showMessage(
+        "🎾 Mişa seninle oyun oynadı!"
+    );
+
+    animateCat("bounce");
+
+    saveGame();
+    updateUI();
+    checkAchievements();
+
+}
+
+
+/* UYUT */
+
+function sleep(){
+
+    game.energy =
+        clamp(game.energy + 32);
+
+    game.hunger =
+        clamp(game.hunger - 5);
+
+    game.happiness =
+        clamp(game.happiness + 3);
+
+    game.totalSleep++;
+    game.totalActions++;
+
+    game.coins += 2;
+
+    addXP(8);
+
+    showMessage(
+        "😴 Mişa güzel bir uyku çekti."
+    );
+
+    saveGame();
+    updateUI();
+    checkAchievements();
+
+}
+
+
+/* TEMİZLE */
+
+function cleanPet(){
+
+    game.cleanliness =
+        clamp(game.cleanliness + 28);
+
+    game.happiness =
+        clamp(game.happiness + 5);
+
+    game.coins += 2;
+
+    game.totalClean++;
+    game.totalActions++;
+
+    game.dailyDone.clean = true;
+
+    addXP(8);
+
+    showMessage(
+        "🧼 Mişa artık tertemiz!"
+    );
+
+    animateCat("happy");
+
+    saveGame();
+    updateUI();
+    checkAchievements();
+
+}
+
+
+/* SEV */
+
+function petMisa(){
+
+    game.happiness =
+        clamp(game.happiness + 16);
+
+    game.coins += 1;
+
+    game.totalPet++;
+    game.totalActions++;
+
+    game.dailyDone.pet = true;
+
+    addXP(5);
+
+    showMessage(
+        "❤️ Mişa sevildiği için çok mutlu!"
+    );
+
+    animateCat("happy");
+
+    saveGame();
+    updateUI();
+    checkAchievements();
+
+}
+
+
+/* ÖDÜL */
+
+function giveTreat(){
+
+    if(game.treats <= 0){
+
+        showMessage(
+            "🦴 Ödülün kalmadı."
+        );
+
+        return;
+
+    }
+
+    game.treats--;
+
+    game.happiness =
+        clamp(game.happiness + 13);
+
+    game.hunger =
+        clamp(game.hunger + 8);
+
+    game.coins += 2;
+
+    game.totalActions++;
+
+    addXP(7);
+
+    showMessage(
+        "🦴 Mişa ödülünü çok sevdi!"
+    );
+
+    animateCat("happy");
+
+    saveGame();
+    updateUI();
+
+}
+
+
+/* =====================================================
+   GÜNLÜK GÖREVLER
+===================================================== */
+
+const DAILY_TASKS = [
+
+    {
+        key:"feed",
+        icon:"🍖",
+        name:"Mişa'yı besle",
+        reward:10
+    },
+
+    {
+        key:"play",
+        icon:"🎾",
+        name:"Mişa ile oyna",
+        reward:15
+    },
+
+    {
+        key:"clean",
+        icon:"🧼",
+        name:"Mişa'yı temizle",
+        reward:10
+    },
+
+    {
+        key:"pet",
+        icon:"❤️",
+        name:"Mişa'yı sev",
+        reward:10
+    }
+
+];
+
+
+function updateDailyTasks(){
+
+    const container =
+        document.getElementById(
+            "dailyTasks"
+        );
+
+    let completed = 0;
+
+    let html = "";
+
+    DAILY_TASKS.forEach(task => {
+
+        const done =
+            !!game.dailyDone[task.key];
+
+        if(done){
+            completed++;
+        }
+
+        html += `
+
+            <div class="daily-item ${done ? "done" : ""}">
+
+                <div class="daily-check">
+                    ${done ? "✓" : task.icon}
+                </div>
+
+                <div class="daily-name">
+                    ${task.name}
+                </div>
+
+                <div class="daily-reward">
+                    +${task.reward} XP
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    container.innerHTML =
+        html;
+
+    document.getElementById(
+        "dailyProgressText"
+    ).textContent =
+        completed + " / "
+        + DAILY_TASKS.length
+        + " tamamlandı";
+
+    document.getElementById(
+        "dailyFill"
+    ).style.width =
+        ((completed /
+        DAILY_TASKS.length)*100)
+        + "%";
+
+
+    if(completed === DAILY_TASKS.length){
+
+        if(!game.dailyDone.bonusClaimed){
+
+            game.dailyDone.bonusClaimed = true;
+
+            game.coins += 25;
+
+            addXP(25);
+
+            showMessage(
+                "🎁 Günlük görevlerin tamamı bitti! +25 coin +25 XP"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   BAŞARILAR
+===================================================== */
+
+const ACHIEVEMENTS = [
+
+    {
+        id:"first",
+        icon:"🐾",
+        name:"İlk Adım",
+        desc:"İlk bakımını yap",
+        test:()=>game.totalActions >= 1
+    },
+
+    {
+        id:"level3",
+        icon:"⭐",
+        name:"Büyümeye Başladı",
+        desc:"Seviye 3'e ulaş",
+        test:()=>game.level >= 3
+    },
+
+    {
+        id:"level5",
+        icon:"🌟",
+        name:"Yaramaz Mişa",
+        desc:"Seviye 5'e ulaş",
+        test:()=>game.level >= 5
+    },
+
+    {
+        id:"level10",
+        icon:"👑",
+        name:"Usta",
+        desc:"Seviye 10'a ulaş",
+        test:()=>game.level >= 10
+    },
+
+    {
+        id:"feed10",
+        icon:"🍖",
+        name:"İyi Besleniyor",
+        desc:"10 kez besle",
+        test:()=>game.totalFeed >= 10
+    },
+
+    {
+        id:"play10",
+        icon:"🎾",
+        name:"Oyun Arkadaşı",
+        desc:"10 kez oyna",
+        test:()=>game.totalPlay >= 10
+    },
+
+    {
+        id:"love10",
+        icon:"❤️",
+        name:"Sevgi Dolu",
+        desc:"10 kez sev",
+        test:()=>game.totalPet >= 10
+    },
+
+    {
+        id:"clean10",
+        icon:"🧼",
+        name:"Tertemiz",
+        desc:"10 kez temizle",
+        test:()=>game.totalClean >= 10
+    },
+
+    {
+        id:"coins100",
+        icon:"🪙",
+        name:"Birikimci",
+        desc:"100 coin biriktir",
+        test:()=>game.coins >= 100
+    },
+
+    {
+        id:"streak7",
+        icon:"🔥",
+        name:"Sadık Bakıcı",
+        desc:"7 günlük seri yap",
+        test:()=>game.streak >= 7
+    }
+
+];
+
+
+function checkAchievements(){
+
+    let newUnlock = false;
+
+    ACHIEVEMENTS.forEach(item => {
+
+        if(
+            !game.unlockedAchievements.includes(
+                item.id
+            )
+            &&
+            item.test()
+        ){
+
+            game.unlockedAchievements.push(
+                item.id
+            );
+
+            game.coins += 20;
+
+            newUnlock = true;
+
+            showMessage(
+                "🏆 Yeni başarı: "
+                + item.name
+                + " (+20 coin)"
+            );
+
+        }
+
+    });
+
+    if(newUnlock){
+
+        saveGame();
+
+    }
+
+    renderAchievements();
+
+}
+
+
+function renderAchievements(){
+
+    const container =
+        document.getElementById(
+            "achievementGrid"
+        );
+
+    container.innerHTML = "";
+
+    ACHIEVEMENTS.forEach(item => {
+
+        const unlocked =
+            game.unlockedAchievements.includes(
+                item.id
+            );
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "achievement "
+            + (unlocked ? "unlocked" : "");
+
+        div.innerHTML = `
+
+            <div class="achievement-icon">
+                ${item.icon}
+            </div>
+
+            <div class="achievement-name">
+                ${item.name}
+            </div>
+
+            <div class="achievement-desc">
+                ${item.desc}
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =====================================================
+   DURUM / RUH HALİ
+===================================================== */
+
+function getMood(){
+
+    const average =
+        (
+            game.hunger +
+            game.energy +
+            game.happiness +
+            game.cleanliness
+        ) / 4;
+
+    if(
+        game.energy < 20
+    ){
+
+        return "😴 Mişa çok uykulu.";
+
+    }
+
+    if(
+        game.hunger < 20
+    ){
+
+        return "🍖 Mişa biraz aç.";
+
+    }
+
+    if(
+        game.cleanliness < 20
+    ){
+
+        return "🧼 Mişa temizlenmek istiyor.";
+
+    }
+
+    if(
+        game.happiness < 25
+    ){
+
+        return "🥺 Mişa biraz ilgi istiyor.";
+
+    }
+
+    if(average >= 85){
+
+        return "🥰 Mişa harika hissediyor!";
+
+    }
+
+    if(average >= 65){
+
+        return "😊 Mişa oldukça mutlu.";
+
+    }
+
+    if(average >= 45){
+
+        return "🙂 Mişa iyi durumda.";
+
+    }
+
+    return "😐 Mişa biraz daha ilgi istiyor.";
+
+}
+
+
+/* =====================================================
+   UI
+===================================================== */
+
+function updateUI(){
+
+    checkNewDay();
+
+
+    /* TOP */
+
+    document.getElementById(
+        "coinValue"
+    ).textContent =
+        game.coins;
+
+    document.getElementById(
+        "streakValue"
+    ).textContent =
+        game.streak + " gün";
+
+    document.getElementById(
+        "achievementValue"
+    ).textContent =
+        game.unlockedAchievements.length;
+
+
+    /* LEVEL */
+
+    document.getElementById(
+        "levelText"
+    ).textContent =
+        "Seviye " + game.level;
+
+    document.getElementById(
+        "xpText"
+    ).textContent =
+        game.xp + " / 100 XP";
+
+    document.getElementById(
+        "xpFill"
+    ).style.width =
+        game.xp + "%";
+
+
+    /* EVOLUTION */
+
+    const evolution =
+        getEvolution();
+
+    document.getElementById(
+        "evolution"
+    ).textContent =
+        evolution.name;
+
+    document.getElementById(
+        "developmentTitle"
+    ).textContent =
+        evolution.name;
+
+    document.getElementById(
+        "developmentText"
+    ).textContent =
+        evolution.text;
+
+
+    /* STATS */
+
+    setStat(
+        "hunger",
+        game.hunger
+    );
+
+    setStat(
+        "energy",
+        game.energy
+    );
+
+    setStat(
+        "happiness",
+        game.happiness
+    );
+
+    setStat(
+        "cleanliness",
+        game.cleanliness
+    );
+
+
+    /* INVENTORY */
+
+    document.getElementById(
+        "foodCount"
+    ).textContent =
+        game.food;
+
+    document.getElementById(
+        "treatCount"
+    ).textContent =
+        game.treats;
+
+    document.getElementById(
+        "toyCount"
+    ).textContent =
+        game.toys;
+
+
+    /* MESSAGE */
+
+    if(
+        !document.getElementById(
+            "message"
+        ).dataset.custom
+    ){
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            getMood();
+
+    }
+
+
+    updateDailyTasks();
+
+    renderAchievements();
+
+    saveGame();
+
+}
+
+
+/* -------------------------
+   STAT
+------------------------- */
+
+function setStat(name,value){
+
+    const valueElement =
+        document.getElementById(
+            name + "Value"
+        );
+
+    const barElement =
+        document.getElementById(
+            name + "Bar"
+        );
+
+    if(valueElement){
+
+        valueElement.textContent =
+            value;
+
+    }
+
+    if(barElement){
+
+        barElement.style.width =
+            value + "%";
+
+    }
+
+}
+
+
+/* =====================================================
+   MESAJI GEÇİCİ GÖSTER
+===================================================== */
+
+function temporaryMessage(text){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.dataset.custom =
+        "true";
+
+    message.textContent =
+        text;
+
+    clearTimeout(
+        temporaryMessage.timer
+    );
+
+    temporaryMessage.timer =
+        setTimeout(()=>{
+
+            delete message.dataset.custom;
+
+            message.textContent =
+                getMood();
+
+        },3500);
+
+}
+
+
+/* Override action message behavior */
+
+const originalShowMessage =
+    showMessage;
+
+showMessage = function(text){
+
+    temporaryMessage(text);
+
+};
+
+
+/* =====================================================
+   ZAMANLA DEĞERLER
+===================================================== */
+
+function passiveUpdate(){
+
+    /*
+       Mişa gerçek zamanlı olarak her dakika
+       çökmüyor. Yaklaşık 30 dakikada bir
+       küçük miktarda ihtiyaç azalıyor.
+    */
+
+    game.hunger =
+        clamp(game.hunger - 2);
+
+    game.energy =
+        clamp(game.energy - 1);
+
+    game.cleanliness =
+        clamp(game.cleanliness - 1);
+
+    if(
+        game.hunger < 30 ||
+        game.energy < 30 ||
+        game.cleanliness < 30
+    ){
+
+        game.happiness =
+            clamp(game.happiness - 2);
+
+    }
+
+    saveGame();
+    updateUI();
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetGame(){
+
+    const confirmed =
+        confirm(
+            "Mişa'nın tüm ilerlemesi silinsin mi?\n\nBu işlem geri alınamaz."
+        );
+
+    if(!confirmed){
+        return;
+    }
+
+    game =
+        JSON.parse(
+            JSON.stringify(DEFAULT_GAME)
+        );
+
+    saveGame();
+    updateUI();
+
+    temporaryMessage(
+        "🐱 Mişa yeniden küçük bir yavru oldu."
+    );
+
+}
+
+
+/* =====================================================
+   BAŞLANGIÇ
+===================================================== */
+
+function startGame(){
+
+    checkNewDay();
+
+    checkAchievements();
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   ÇALIŞTIR
+===================================================== */
+
+if(
+    document.readyState === "loading"
+){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        startGame
+    );
+
+}else{
+
+    startGame();
+
+}
+
+
+/*
+   Her 30 dakikada Mişa'nın ihtiyaçları
+   çok küçük miktarda azalır.
+*/
+
+setInterval(
+    passiveUpdate,
+    30 * 60 * 1000
+);
+
+</script>
+
+</body>
+</html>
