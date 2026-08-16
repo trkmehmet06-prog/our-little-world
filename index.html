@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff7fb">
+<title>Özlem & Mehmet'in Evcil Hayvanı Mişa</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#292333;background:linear-gradient(#fff7fb,#f4f0ff,#eefaff);min-height:100vh}button{font:inherit;border:0}.app{max-width:720px;margin:auto;padding:18px 14px 40px}.head{text-align:center;padding:8px}.head h1{margin:0;font-size:28px}.head p{color:#756a7e;margin:8px 0}.badge{display:inline-block;background:#fff;border:1px solid #eadfec;border-radius:99px;padding:7px 12px;font-size:12px}.card{background:#fff;border:1px solid #eee5f1;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 8px 25px #4430500d}.petcard{text-align:center}.pet{font-size:105px;height:190px;display:grid;place-items:center;animation:b 2.5s infinite}@keyframes b{50%{transform:translateY(-6px) scale(1.03)}}.name{font-size:28px;font-weight:800}.stage{color:#766b80;font-size:14px;margin-top:4px}.status{background:#faf7ff;border-radius:14px;padding:11px;margin-top:13px;color:#665b70}.row{display:flex;justify-content:space-between;align-items:end}.level{font-size:22px;font-weight:800}.muted{font-size:12px;color:#817689}.bar{height:11px;background:#eee9f2;border-radius:99px;overflow:hidden;margin-top:9px}.bar div{height:100%;width:0;background:linear-gradient(90deg,#b88cff,#ff9fc7);transition:.3s}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}.stat{text-align:center;background:#fbf9fc;border-radius:15px;padding:12px}.stat b{display:block;margin-top:3px}.stat small{color:#817689}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.act{padding:15px 8px;background:#fff;border:1px solid #eee4f0;border-radius:17px;font-weight:700;box-shadow:0 4px 10px #4430500a}.act small{display:block;color:#817689;font-weight:400;margin-top:4px}.act:disabled{opacity:.45}.info{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ibox{background:#fbf9fc;border-radius:15px;padding:13px;font-size:13px}.ibox b{display:block;margin-bottom:5px}.sync{text-align:center;font-size:12px;color:#7d7184;margin-top:12px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#35a86b;margin-right:5px}.off{background:#d47777}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,120px);opacity:0;background:#2d2834;color:#fff;padding:12px 17px;border-radius:14px;transition:.25s;z-index:10}.toast.show{transform:translate(-50%,0);opacity:1}.modal{position:fixed;inset:0;background:#211a2a77;display:none;place-items:center;padding:20px;z-index:20}.modal.show{display:grid}.modalbox{background:#fff;border-radius:22px;padding:24px;text-align:center;max-width:340px;width:100%}.modalpet{font-size:65px}.close{background:#292333;color:#fff;border-radius:12px;padding:11px 20px}@media(max-width:430px){.head h1{font-size:24px}.app{padding:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="head">
+<h1>🐱 Mişa'nın Dünyası</h1>
+<p><strong>Özlem & Mehmet'in Evcil Hayvanı Mişa</strong></p>
+<span class="badge">☁️ Ortak kayıt • İki telefonda aynı Mişa</span>
+</header>
+
+<section class="card petcard">
+<div id="pet" class="pet">🐱</div>
+<div class="name">Mişa</div>
+<div id="stage" class="stage">Minik Yavru</div>
+<div id="status" class="status">Mişa hazırlanıyor...</div>
+</section>
+
+<section class="card">
+<div class="row"><div><div id="level" class="level">Seviye 1</div><div id="xptext" class="muted">0 / 100 XP</div></div><div id="actions" class="muted">0 aktivite</div></div>
+<div class="bar"><div id="xpbar"></div></div>
+<div class="stats">
+<div class="stat">🍖<b id="hunger">80</b><small>Açlık</small></div>
+<div class="stat">⚡<b id="energy">80</b><small>Enerji</small></div>
+<div class="stat">❤️<b id="happy">80</b><small>Mutluluk</small></div>
+</div>
+</section>
+
+<section class="card">
+<h3>Mişa ile ilgilen</h3>
+<div class="actions">
+<button id="feed" class="act" onclick="act('feed')">🍖 Besle<small>+10 XP</small></button>
+<button id="play" class="act" onclick="act('play')">🎾 Oyna<small>+15 XP</small></button>
+<button id="love" class="act" onclick="act('love')">❤️ Sev<small>+10 XP</small></button>
+<button id="rest" class="act" onclick="act('rest')">😴 Dinlendir<small>+8 XP</small></button>
+</div>
+</section>
+
+<section class="card">
+<div class="info">
+<div class="ibox"><b>🌱 Gelişim</b><span id="dev">Mişa yeni dünyasını keşfetmeye başladı.</span></div>
+<div class="ibox"><b>🏆 Son aktivite</b><span id="last">-</span></div>
+</div>
+<div class="sync"><span id="dot" class="dot"></span><span id="sync">Supabase bağlanıyor...</span></div>
+</section>
+</div>
+
+<div id="toast" class="toast"></div>
+<div id="modal" class="modal"><div class="modalbox"><div id="modalpet" class="modalpet">🎉</div><h2 id="modaltitle">Seviye atladın!</h2><p id="modaltext"></p><button class="close" onclick="modal.classList.remove('show')">Devam et</button></div></div>
+
+<script>
+const SUPABASE_URL="https://hfwxmpohclwolzsduor.supabase.co";
+const SUPABASE_KEY="sb_publishable_Jl_guuDbBsMkzEeqQfBPgw__X9BhqhP";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const ID=1;
+let m=null,busy=false,poll=null;
+
+function clamp(x){return Math.max(0,Math.min(100,x))}
+function need(l){return l*100}
+function stage(l){
+ if(l>=16)return["👑","Mişa'nın Krallığı","Mişa artık küçük dünyasının hükümdarı!"];
+ if(l>=11)return["🐈","Büyümüş Mişa","Mişa artık büyüdü ve dünyayı cesurca keşfediyor."];
+ if(l>=6)return["😺","Meraklı Mişa","Mişa seni tanıyor ve maceralara hazır!"];
+ return["🐱","Minik Yavru","Mişa yeni dünyasını keşfetmeye başladı."];
+}
+function mood(){
+ let a=(m.hunger+m.energy+m.happiness)/3;
+ return a>=85?"Mişa harika hissediyor! ✨":a>=65?"Mişa mutlu ve keyfi yerinde. 😊":a>=45?"Mişa biraz ilgi istiyor. 🐾":a>=25?"Mişa'nın ihtiyaçlarıyla ilgilenmelisin. 🥺":"Mişa'nın acil ilgiye ihtiyacı var! ❤️";
+}
+function render(){
+ if(!m)return;
+ let s=stage(m.level), n=need(m.level);
+ pet.textContent=s[0];stageEl.textContent=s[1];dev.textContent=s[2];
+ level.textContent="Seviye "+m.level;xptext.textContent=m.xp+" / "+n+" XP";
+ xpbar.style.width=Math.min(100,m.xp/n*100)+"%";
+ hunger.textContent=m.hunger;energy.textContent=m.energy;happy.textContent=m.happiness;
+ actions.textContent=m.total_actions+" aktivite";last.textContent=m.last_action||"-";status.textContent=mood();
+ feed.disabled=busy||m.hunger>=100;play.disabled=busy||m.energy<10;love.disabled=busy;rest.disabled=busy||m.energy>=100;
+}
+const pet=document.getElementById("pet"),stageEl=document.getElementById("stage"),dev=document.getElementById("dev"),level=document.getElementById("level"),xptext=document.getElementById("xptext"),xpbar=document.getElementById("xpbar"),hunger=document.getElementById("hunger"),energy=document.getElementById("energy"),happy=document.getElementById("happy"),actions=document.getElementById("actions"),last=document.getElementById("last"),status=document.getElementById("status"),feed=document.getElementById("feed"),play=document.getElementById("play"),love=document.getElementById("love"),rest=document.getElementById("rest"),dot=document.getElementById("dot"),sync=document.getElementById("sync"),toast=document.getElementById("toast"),modal=document.getElementById("modal"),modalpet=document.getElementById("modalpet"),modaltitle=document.getElementById("modaltitle"),modaltext=document.getElementById("modaltext");
+
+function syncmsg(ok,t){dot.className="dot"+(ok?"":" off");sync.textContent=t}
+function msg(t){toast.textContent=t;toast.classList.add("show");clearTimeout(msg.t);msg.t=setTimeout(()=>toast.classList.remove("show"),2200)}
+
+async function load(){
+ try{
+  let r=await db.from("misa_state").select("*").eq("id",ID).single();
+  if(r.error)throw r.error;m=r.data;render();syncmsg(true,"Ortak Mişa verisi senkronize.");
+ }catch(e){console.error(e);syncmsg(false,"Supabase bağlantısı kurulamadı.");status.textContent="Publishable Key veya Supabase ayarını kontrol et."}
+}
+
+async function act(type){
+ if(!m||busy)return;
+ let old=m.level,n={...m};
+ if(type==="feed"){if(n.hunger>=100)return;n.hunger=clamp(n.hunger+18);n.happiness=clamp(n.happiness+3);n.xp+=10}
+ if(type==="play"){if(n.energy<10)return;n.energy=clamp(n.energy-10);n.happiness=clamp(n.happiness+18);n.hunger=clamp(n.hunger-5);n.xp+=15}
+ if(type==="love"){n.happiness=clamp(n.happiness+12);n.energy=clamp(n.energy-2);n.xp+=10}
+ if(type==="rest"){if(n.energy>=100)return;n.energy=clamp(n.energy+20);n.hunger=clamp(n.hunger-3);n.xp+=8}
+ while(n.xp>=need(n.level)){n.xp-=need(n.level);n.level++}
+ n.stage=n.level>=16?4:n.level>=11?3:n.level>=6?2:1;
+ n.total_actions++;n.last_action={feed:"Mişa güzelce beslendi 🍖",play:"Mişa seninle oyun oynadı 🎾",love:"Mişa sevgini hissetti ❤️",rest:"Mişa dinlenip enerji topladı 😴"}[type];
+ n.updated_at=new Date().toISOString();
+ busy=true;render();
+ try{
+  let r=await db.from("misa_state").update({xp:n.xp,level:n.level,hunger:n.hunger,energy:n.energy,happiness:n.happiness,stage:n.stage,total_actions:n.total_actions,last_action:n.last_action,updated_at:n.updated_at}).eq("id",ID).select().single();
+  if(r.error)throw r.error;m=r.data;render();msg(n.last_action);syncmsg(true,"Ortak kayıt güncellendi.");
+  if(m.level>old){let s=stage(m.level);modalpet.textContent=s[0];modaltitle.textContent="Seviye "+m.level+"! 🎉";modaltext.textContent=s[1];modal.classList.add("show")}
+ }catch(e){console.error(e);msg("Kayıt yapılamadı.");syncmsg(false,"Kayıt başarısız.");}
+ busy=false;render();
+}
+
+function realtime(){
+ db.channel("misa").on("postgres_changes",{event:"*",schema:"public",table:"misa_state",filter:"id=eq.1"},p=>{
+  if(p.new){m=p.new;render();syncmsg(true,"Diğer cihazla senkronize edildi.")}
+ }).subscribe();
+}
+function polling(){
+ clearInterval(poll);poll=setInterval(async()=>{
+  if(busy)return;
+  let r=await db.from("misa_state").select("*").eq("id",ID).single();
+  if(!r.error&&r.data){if(!m||r.data.updated_at!==m.updated_at){m=r.data;render()}syncmsg(true,"Ortak kayıt aktif.")}
+ },5000);
+}
+async function start(){
+ if(SUPABASE_KEY==="BURAYA_PUBLISHABLE_KEY_YAPISTIR"){status.textContent="index.html içindeki Publishable Key alanını doldur.";syncmsg(false,"Publishable Key eksik.");return}
+ syncmsg(false,"Mişa yükleniyor...");await load();realtime();polling();
+}
+start();
+</script>
+</body>
+</html>
