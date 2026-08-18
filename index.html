@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#fff7fb">
+<title>Mişa'nın Dünyası — V8</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--ink:#2b2435;--muted:#7d7188;--card:#ffffffee;--line:#eadff0;--pink:#ff8fbd;--purple:#a77af4;--blue:#5b9df8;--green:#62c999}
+body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(circle at 5% 3%,#ffd6e8 0,transparent 25%),radial-gradient(circle at 95% 8%,#cfeaff 0,transparent 28%),linear-gradient(#fff8fb,#f5efff 55%,#edfaff);min-height:100vh}
+button{font:inherit;border:0}
+.app{width:min(960px,100%);margin:auto;padding:14px 12px 55px}
+.header{text-align:center;padding:10px 5px 17px}.header h1{font-size:clamp(35px,8vw,58px);margin:0;font-weight:950;letter-spacing:-2px}.header p{margin:8px 0 14px;color:var(--muted);font-weight:800;font-size:clamp(16px,4vw,23px)}
+.sync{display:inline-flex;gap:8px;align-items:center;padding:9px 15px;border:2px solid var(--line);border-radius:99px;background:#fff;box-shadow:0 5px 20px #5a456c0d;font-weight:750;font-size:13px}.dot{width:10px;height:10px;border-radius:50%;background:#df6971}.dot.ok{background:#42c58c;box-shadow:0 0 0 4px #42c58c20}
+.card{background:var(--card);border:2px solid var(--line);border-radius:29px;padding:20px;margin-bottom:17px;box-shadow:0 14px 40px #4d3a5d0b}
+h2,h3{margin-top:0}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.players{display:grid;grid-template-columns:1fr 1fr;gap:10px}.player{background:#fff;border:2px solid var(--line);border-radius:20px;padding:13px;cursor:pointer;font-weight:900}.player.sel{border-color:var(--purple);background:linear-gradient(135deg,#f4edff,#fff0f7)}.player small{display:block;color:var(--muted);margin-top:5px}
+.scene{position:relative;height:330px;border-radius:25px;overflow:hidden;background:linear-gradient(#dff4ff 0 58%,#bfe7aa 58%);border:2px solid #e4dbea}
+.scene.night{background:linear-gradient(#202c54 0 58%,#46604b 58%)}.scene.beach{background:linear-gradient(#bdeaff 0 55%,#efd78c 55%)}.scene.forest{background:linear-gradient(#bde4d0 0 55%,#6da66f 55%)}.scene.mountain{background:linear-gradient(#b9d9f7 0 55%,#9bb49b 55%)}.scene.space{background:radial-gradient(circle at 25% 20%,#fff 0 1px,transparent 2px),radial-gradient(circle at 70% 30%,#fff 0 1px,transparent 2px),linear-gradient(140deg,#15133d,#44317b)}
+.sun{position:absolute;right:28px;top:25px;width:52px;height:52px;border-radius:50%;background:#ffe48a;box-shadow:0 0 30px #ffe48a88}.night .sun{background:#e9efff}.sceneLabel{position:absolute;left:13px;top:12px;background:#ffffffc9;padding:7px 11px;border-radius:99px;font-weight:900}.night .sceneLabel,.space .sceneLabel{background:#201a3dcc;color:#fff}
+.misa{position:absolute;left:50%;bottom:30px;width:170px;height:190px;transform:translateX(-50%);transition:left 1s ease,transform .35s ease;z-index:3;filter:drop-shadow(0 12px 8px #4b3b4b22)}
+.body{position:absolute;left:35px;bottom:0;width:100px;height:100px;border:4px solid #5b5062;border-radius:52% 52% 42% 42%;background:linear-gradient(145deg,#fff,#e9e3ed)}
+.head{position:absolute;left:18px;top:5px;width:134px;height:118px;border:4px solid #5b5062;border-radius:48%;background:linear-gradient(145deg,#fff,#eee8f2);z-index:3}.ear{position:absolute;top:-28px;width:54px;height:62px;background:#f7eef5;border:4px solid #5b5062}.ear.l{left:8px;transform:rotate(-18deg);border-radius:65% 12% 15% 20%}.ear.r{right:8px;transform:rotate(18deg);border-radius:12% 65% 20% 15%}.ear:after{content:"";position:absolute;inset:12px;border-radius:50%;background:#f1b3ca}
+.eye{position:absolute;top:47px;width:15px;height:21px;background:#302936;border-radius:50%;animation:blink 5s infinite}.eye.l{left:32px}.eye.r{right:32px}.eye:after{content:"";position:absolute;top:3px;left:4px;width:4px;height:6px;border-radius:50%;background:#fff}.nose{position:absolute;top:72px;left:50%;transform:translateX(-50%);width:13px;height:10px;background:#e58ca9;border-radius:55%}.mouth{position:absolute;top:82px;left:50%;transform:translateX(-50%);width:22px;height:12px;border-bottom:3px solid #5b5062;border-radius:50%}.paw{position:absolute;bottom:-6px;width:38px;height:57px;border:4px solid #5b5062;border-radius:45%;background:#f7f0f7;z-index:4}.paw.l{left:26px}.paw.r{right:26px}.tail{position:absolute;right:0;bottom:45px;width:75px;height:88px;border:12px solid #eee8f2;border-left-color:transparent;border-bottom-color:transparent;border-radius:50% 65% 50% 10%;transform:rotate(25deg);animation:tail 2.3s ease-in-out infinite}.hat,.glasses,.scarf{display:none;position:absolute;z-index:8}.hat{top:-22px;left:43px;font-size:38px}.glasses{top:49px;left:37px;font-size:27px}.scarf{top:110px;left:62px;font-size:26px}.misa.hatOn .hat,.misa.glassesOn .glasses,.misa.scarfOn .scarf{display:block}
+@keyframes blink{0%,45%,48%,100%{transform:scaleY(1)}46%,47%{transform:scaleY(.08)}}@keyframes tail{0%,100%{transform:rotate(25deg)}50%{transform:rotate(43deg)}}@keyframes bob{50%{transform:translateX(-50%) translateY(-7px)}}@keyframes jump{40%{transform:translateX(-50%) translateY(-35px) rotate(-4deg)}70%{transform:translateX(-50%) translateY(0) rotate(4deg)}}.misa.idle{animation:bob 2.8s ease-in-out infinite}.misa.action{animation:jump .8s ease}.misa.sleep{transform:translateX(-50%) rotate(8deg);opacity:.92}.misa.love{animation:jump .8s ease}
+.sceneItem{position:absolute;font-size:45px;bottom:27px;z-index:2}.food{left:15%}.toy{right:15%}.bed{left:43%;bottom:16px;font-size:55px}
+.scene.space .sceneItem{display:none}.statusLine{text-align:center;color:var(--muted);font-weight:800;margin:10px 0 0}.petName{text-align:center;font-size:39px;font-weight:950;margin:10px 0 0}.stage{text-align:center;color:var(--muted);font-weight:800}
+.level{margin-bottom:12px}.xpbar{height:16px;background:#eee8f3;border-radius:99px;overflow:hidden}.xpfill{height:100%;width:0;background:linear-gradient(90deg,#a981f4,#ff91bd);transition:.45s}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:#fbf8fc;border-radius:18px;padding:12px;text-align:center}.stat b{display:block;font-size:26px}.stat small{color:var(--muted);font-weight:750}
+.daily{margin-top:12px;padding:12px 14px;border-radius:17px;background:linear-gradient(135deg,#fff7fb,#f5efff);display:flex;justify-content:space-between;align-items:center}.daily strong{font-size:22px;color:#865fd0}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.action{min-height:118px;border:2px solid var(--line);border-radius:22px;background:#fff;cursor:pointer;color:#0879ee;font-weight:950;font-size:22px}.action span{display:block;font-size:37px;margin-bottom:4px}.action small{color:var(--muted);font-size:13px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.tab{padding:11px 7px;border-radius:15px;background:#f7f2fa;font-weight:900;cursor:pointer}.tab.active{background:#eadfff;color:#6c45ae}.panel{display:none}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.mini{padding:14px;border-radius:18px;background:#fbf8fc;border:1px solid #eee5f2}.mini button{margin-top:8px;padding:8px 12px;border-radius:99px;background:#8d63d9;color:#fff;font-weight:900;cursor:pointer}
+.map{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.loc{padding:15px;border-radius:18px;background:#fbf8fc;border:2px solid #eee5f2;cursor:pointer}.loc.lock{opacity:.45}.loc b{display:block;font-size:22px}.journal{display:flex;flex-direction:column;gap:8px;max-height:330px;overflow:auto}.j{padding:11px 13px;border-radius:16px;background:#fbf8fc}.j small{display:block;color:var(--muted);margin-top:3px}
+.miniGame{position:relative;height:230px;border-radius:20px;background:linear-gradient(#dff5ff,#c7e8a7);overflow:hidden;border:2px solid #e7dff0}.target{position:absolute;font-size:43px;cursor:pointer;display:none}.score{text-align:center;font-weight:950;font-size:20px;margin:8px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,30px);opacity:0;background:#2b2435;color:#fff;padding:12px 18px;border-radius:99px;z-index:50;font-weight:850;transition:.2s;max-width:92%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:#241b2d88;display:none;align-items:center;justify-content:center;padding:20px;z-index:60}.modal.show{display:flex}.modalbox{background:#fff;border-radius:28px;padding:27px;max-width:390px;width:100%;text-align:center}.modalbox button{background:#1677ed;color:#fff;padding:12px 22px;border-radius:99px;font-weight:900}
+.error{display:none;margin-top:10px;padding:12px;border-radius:15px;background:#fff0f1;border:2px solid #f0b5bb;color:#913b44;overflow-wrap:anywhere}.error.show{display:block}
+@media(max-width:650px){.card{padding:17px}.scene{height:315px}.misa{transform:translateX(-50%) scale(.88);transform-origin:50% 100%}.actions{gap:8px}.action{min-height:112px;font-size:19px}.action span{font-size:34px}.grid,.map{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:390px){.players,.stats{grid-template-columns:1fr}.actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+  <h1>🐱 Mişa'nın Dünyası</h1>
+  <p>Özlem & Mehmet'in Ortak Mişa'sı ❤️</p>
+  <div class="sync">☁️ <span id="sync">Bağlanıyor...</span><i id="dot" class="dot"></i></div>
+</header>
+
+<section class="card">
+  <div class="players">
+    <button id="mehmetBtn" class="player" onclick="selectPlayer('mehmet')">👨🏻 Mehmet<small id="mehmetLimit">Kalan: - / 20</small></button>
+    <button id="ozlemBtn" class="player" onclick="selectPlayer('ozlem')">👩🏻 Özlem<small id="ozlemLimit">Kalan: - / 20</small></button>
+  </div>
+</section>
+
+<section class="card">
+  <div id="scene" class="scene">
+    <div class="sun"></div>
+    <div id="sceneLabel" class="sceneLabel">🏠 Mişa'nın Evi</div>
+    <div class="sceneItem food">🍖</div>
+    <div class="sceneItem toy">🎾</div>
+    <div class="sceneItem bed">🛏️</div>
+    <div id="misa" class="misa idle">
+      <div class="tail"></div>
+      <div class="body"><div class="paw l"></div><div class="paw r"></div></div>
+      <div class="head">
+        <div class="ear l"></div><div class="ear r"></div>
+        <div class="eye l"></div><div class="eye r"></div>
+        <div class="nose"></div><div class="mouth"></div>
+      </div>
+      <div class="hat" id="hat">🎩</div>
+      <div class="glasses" id="glasses">🕶️</div>
+      <div class="scarf" id="scarf">🎀</div>
+    </div>
+  </div>
+  <h2 id="petName" class="petName">Mişa</h2>
+  <div id="stage" class="stage">Minik Yavru</div>
+  <div id="mood" class="statusLine">😊 Mutlu · Seni bekliyor</div>
+</section>
+
+<section class="card">
+  <div class="row"><h2 id="levelTitle">Seviye 1</h2><b id="activityCount">0 aktivite</b></div>
+  <div id="xpText" style="color:var(--muted);font-weight:800;margin-bottom:8px">0 / 100 XP</div>
+  <div class="xpbar"><div id="xpFill" class="xpfill"></div></div>
+  <div class="stats">
+    <div class="stat">🍖<b id="hunger">80</b><small>Açlık</small></div>
+    <div class="stat">⚡<b id="energy">80</b><small>Enerji</small></div>
+    <div class="stat">❤️<b id="happiness">80</b><small>Mutluluk</small></div>
+  </div>
+  <div class="daily"><span>🎮 Bugünkü hakkın<br><small id="dailySub">Oyuncu seç</small></span><strong id="dailyNumber">- / 20</strong></div>
+  <div style="margin-top:10px;color:#8a61d6;font-weight:900">🪙 <span id="coins">100</span> coin</div>
+</section>
+
+<section class="card">
+  <h2>Mişa ile ilgilen</h2>
+  <div class="actions">
+    <button class="action" onclick="act('feed')"><span>🍖</span>Besle<small>+10 XP</small></button>
+    <button class="action" onclick="act('play')"><span>🎾</span>Oyna<small>+15 XP</small></button>
+    <button class="action" onclick="act('love')"><span>❤️</span>Sev<small>+10 XP</small></button>
+    <button class="action" onclick="act('rest')"><span>😴</span>Dinlendir<small>+8 XP</small></button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="tabs">
+    <button class="tab active" onclick="tab('home',this)">🏠 Yaşam</button>
+    <button class="tab" onclick="tab('world',this)">🗺️ Dünya</button>
+    <button class="tab" onclick="tab('game',this)">🎮 Oyun</button>
+  </div>
+
+  <div id="home" class="panel active">
+    <div class="grid">
+      <div class="mini"><b>🌱 Gelişim</b><p id="development">Mişa dünyasını keşfediyor.</p></div>
+      <div class="mini"><b>💑 Bağ</b><p>Mehmet: <strong id="affM">0</strong> · Özlem: <strong id="affO">0</strong></p></div>
+      <div class="mini"><b>🎒 Envanter</b><p id="inventoryText">Yükleniyor...</p><button onclick="loadInventory()">Görüntüle</button></div>
+      <div class="mini"><b>🏆 Başarımlar</b><p id="achievementText">Yükleniyor...</p><button onclick="loadAchievements()">Görüntüle</button></div>
+    </div>
+  </div>
+
+  <div id="world" class="panel">
+    <h3>🌍 Keşfedilecek yerler</h3>
+    <div id="map" class="map"></div>
+  </div>
+
+  <div id="game" class="panel">
+    <h3>🎾 Top Yakala</h3>
+    <div class="score">Skor: <span id="score">0</span> · Süre: <span id="timer">20</span></div>
+    <div id="miniGame" class="miniGame"><button id="target" class="target" onclick="hitTarget()">🎾</button></div>
+    <div style="text-align:center;margin-top:10px"><button class="mini" onclick="startGame()">Oyunu Başlat</button></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>📖 Mişa Günlüğü & Anılar</h2>
+  <div id="journal" class="journal"><div class="j">Henüz anı yok.</div></div>
+</section>
+
+<section class="card">
+  <h2>🎯 Bugünkü Görevler</h2>
+  <div id="quests" class="grid"><div class="mini">Görevler yükleniyor...</div></div>
+</section>
+
+<div id="error" class="error"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+<div id="modal" class="modal"><div class="modalbox"><div style="font-size:60px">🎉</div><h2 id="modalTitle">Seviye Atladın!</h2><p id="modalText"></p><button onclick="closeModal()">Devam et</button></div></div>
+
+<script>
+const SUPABASE_URL="https://bhjninnczvbtrbkbytpg.supabase.co";
+const SUPABASE_KEY="sb_publishable_O1dyf1Jj32HjubhgoKPbBw_CJgFH5Lq";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+const PET_ID=1, LIMIT=20;
+const PLAYERS={mehmet:{name:"Mehmet",icon:"👨🏻"},ozlem:{name:"Özlem",icon:"👩🏻"}};
+let player=null,m=null,busy=false,toTimer=null,gameTimer=null,gameScore=0,gameTime=20;
+
+function clamp(v){return Math.max(0,Math.min(100,Number(v)||0))}
+function level(xp){return Math.floor((Number(xp)||0)/100)+1}
+function stage(l){return l>=50?"👑 Efsane Ötesi Mişa":l>=30?"🌌 Kozmik Mişa":l>=20?"👑 Efsane Mişa":l>=15?"🌟 Usta Mişa":l>=10?"🏆 Büyük Mişa":l>=5?"🐱 Genç Mişa":"Minik Yavru"}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.classList.add("show");clearTimeout(toTimer);toTimer=setTimeout(()=>e.classList.remove("show"),2300)}
+function err(e){const x=document.getElementById("error");x.textContent=e?.message||String(e);x.classList.add("show")}
+function sync(ok,t){document.getElementById("sync").textContent=t;document.getElementById("dot").className="dot"+(ok?" ok":"")}
+function savedPlayer(){try{return localStorage.getItem("misa_player")}catch{return null}}
+function selectPlayer(k){if(!PLAYERS[k])return;player={...PLAYERS[k],key:k};try{localStorage.setItem("misa_player",k)}catch{};document.getElementById("mehmetBtn").classList.toggle("sel",k==="mehmet");document.getElementById("ozlemBtn").classList.toggle("sel",k==="ozlem");document.getElementById("dailySub").textContent=player.name+" · kişisel hakkın";refreshDaily();toast(player.name+" olarak oynuyorsun ❤️")}
+async function daily(k){const today=new Date().toISOString().slice(0,10);const {data,error}=await db.from("misa_daily_usage").select("action_count").eq("player_key",k).eq("usage_date",today).maybeSingle();if(error)throw error;const used=data?.action_count||0;return {used,remaining:Math.max(0,LIMIT-used)}}
+async function refreshDaily(){const a=await daily("mehmet").catch(()=>({used:0,remaining:20}));const b=await daily("ozlem").catch(()=>({used:0,remaining:20}));document.getElementById("mehmetLimit").textContent=`Kalan: ${a.remaining} / 20`;document.getElementById("ozlemLimit").textContent=`Kalan: ${b.remaining} / 20`;if(player){const x=player.key==="mehmet"?a:b;document.getElementById("dailyNumber").textContent=`${x.used} / 20`}}
+async function useDaily(){if(!player){toast("Önce Mehmet veya Özlem'i seç ❤️");return false}const {data,error}=await db.rpc("use_misa_action",{p_player_key:player.key});if(error){err(error);return false}if(!data?.allowed){toast("Bugünkü 20 hakkın bitti ❤️");await refreshDaily();return false}await refreshDaily();return true}
+async function load(){const {data,error}=await db.from("misa_state").select("*").eq("id",PET_ID).maybeSingle();if(error)throw error;if(!data)throw Error("Mişa kaydı bulunamadı.");m={...data,xp:Number(data.xp)||0,hunger:clamp(data.hunger),energy:clamp(data.energy),happiness:clamp(data.happiness),coins:Number(data.coins)||100,total_actions:Number(data.total_actions)||0};render()}
+function render(){if(!m)return;const l=level(m.xp),cur=m.xp%100;document.getElementById("levelTitle").textContent="Seviye "+l;document.getElementById("xpText").textContent=`${cur} / 100 XP`;document.getElementById("xpFill").style.width=cur+"%";document.getElementById("activityCount").textContent=m.total_actions+" aktivite";document.getElementById("hunger").textContent=Math.round(m.hunger);document.getElementById("energy").textContent=Math.round(m.energy);document.getElementById("happiness").textContent=Math.round(m.happiness);document.getElementById("coins").textContent=m.coins;document.getElementById("petName").textContent=m.name||"Mişa";document.getElementById("stage").textContent=stage(l);document.getElementById("affM").textContent=Math.round(m.affection_mehmet||0);document.getElementById("affO").textContent=Math.round(m.affection_ozlem||0);const mood=m.current_mood||"normal";document.getElementById("mood").textContent=mood==="happy"?"😊 Mutlu · Seninle vakit geçirmek istiyor":mood==="sad"?"🥺 Biraz ilgi istiyor":"🐾 Etrafı keşfediyor";document.getElementById("development").textContent=l>=50?"Mişa efsanelerin ötesinde! 🌌👑":l>=30?"Mişa kozmik dünyayı keşfediyor! 🌌":l>=20?"Mişa efsaneleşti! 👑":l>=10?"Mişa büyüyor! 🏆":l>=5?"Mişa gençlik döneminde. 🐱":"Mişa yeni dünyasını keşfediyor.";applyEvolution(l);moveMisa()}
+function applyEvolution(l){const e=document.getElementById("misa");e.classList.toggle("hatOn",l>=20);e.classList.toggle("glassesOn",l>=10);e.classList.toggle("scarfOn",l>=5)}
+function moveMisa(){const e=document.getElementById("misa");if(!e||!m)return;let p=m.hunger<35?16:m.energy<35?43:m.happiness<40?82:50;e.style.left=p+"%"}
+function actionAnimation(type){const e=document.getElementById("misa");e.classList.remove("action","love","sleep");void e.offsetWidth;e.classList.add(type==="rest"?"sleep":type==="love"?"love":"action");setTimeout(()=>e.classList.remove("action","love","sleep"),1100)}
+async function act(type){if(busy||!m)return;const allowed=await useDaily();if(!allowed)return;busy=true;document.querySelectorAll(".action").forEach(x=>x.disabled=true);try{let xp=0,h=0,en=0,ha=0;if(type==="feed"){if(m.hunger>=100){toast("Mişa zaten tok 🥰");return}h=Math.min(18,100-m.hunger);ha=3;xp=10}else if(type==="play"){if(m.energy<10){toast("Mişa çok yorgun 😴");return}en=-10;h=-5;ha=12;xp=15}else if(type==="love"){ha=10;xp=10}else if(type==="rest"){if(m.energy>=100){toast("Mişa'nın enerjisi dolu ⚡");return}en=Math.min(20,100-m.energy);ha=3;xp=8}else return;const old=level(m.xp);const {data,error}=await db.rpc("update_misa_stats",{p_pet_id:PET_ID,p_player_key:player.key,p_action_type:type,p_xp:xp,p_hunger_change:h,p_energy_change:en,p_happiness_change:ha});if(error)throw error;await db.from("pet_actions").insert({pet_id:PET_ID,action_type:type,xp_gained:xp,hunger_change:h,energy_change:en,happiness_change:ha,performed_by:player.key,performed_by_name:player.name});if(type==="feed")m.hunger=clamp(m.hunger+h);if(type==="play"){m.energy=clamp(m.energy+en);m.hunger=clamp(m.hunger+h)}m.happiness=clamp(m.happiness+ha);m.xp+=xp;m.total_actions++;m.coins=data?.coins??m.coins;render();actionAnimation(type);toast(`${player.name} · ${type==="feed"?"🍖 Besledi":type==="play"?"🎾 Oynadı":type==="love"?"❤️ Sevdi":"😴 Dinlendirdi"} · +${xp} XP`);await loadJournal();await loadQuests();if(level(m.xp)>old)showLevel(level(m.xp))}catch(e){err(e);toast("İşlem başarısız oldu.")}finally{busy=false;document.querySelectorAll(".action").forEach(x=>x.disabled=false)}}
+async function loadJournal(){const {data}=await db.from("pet_actions").select("action_type,performed_by_name,created_at").eq("pet_id",PET_ID).order("created_at",{ascending:false}).limit(20);const j=document.getElementById("journal");if(!data?.length){j.innerHTML='<div class="j">Henüz anı yok. Mişa sizinle oynayacak! ❤️</div>';return}const names={feed:"🍖 besledi",play:"🎾 oynadı",love:"❤️ sevdi",rest:"😴 dinlendirdi"};j.innerHTML=data.map(x=>`<div class="j"><b>${x.performed_by_name||"Bir oyuncu"}</b> ${names[x.action_type]||"Mişa ile ilgilendi"}<small>${new Date(x.created_at).toLocaleString("tr-TR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</small></div>`).join("")}
+async function loadInventory(){const {data}=await db.from("misa_inventory").select("item_name,quantity").eq("pet_id",PET_ID).order("item_name");document.getElementById("inventoryText").textContent=data?.length?data.map(x=>`${x.item_name} x${x.quantity}`).join(" · "):"Boş"}
+async function loadAchievements(){const {data:a}=await db.from("misa_achievements").select("achievement_key,title,icon,target_value");const {data:u}=await db.from("misa_unlocked_achievements").select("achievement_key").eq("pet_id",PET_ID);const done=new Set((u||[]).map(x=>x.achievement_key));document.getElementById("achievementText").textContent=`${done.size} / ${(a||[]).length} tamamlandı`}
+async function loadMap(){const {data}=await db.from("misa_locations").select("*").eq("active",true).order("required_level");const l=level(m.xp);document.getElementById("map").innerHTML=(data||[]).map(x=>{const locked=l<x.required_level;return `<button class="loc ${locked?"lock":""}" onclick="${locked?"toast('Bu bölge Seviye "+x.required_level+"de açılıyor 🌟')":"travel('"+x.location_key+"','"+x.name+"')"}"><b>${x.icon} ${x.name}</b><small>${locked?"🔒 Seviye "+x.required_level:"Açık · "+x.description}</small></button>`}).join("")}
+async function travel(key,name){if(key!=="home"){const locs={park:3,beach:7,forest:12,mountain:20,space:30};if(level(m.xp)<(locs[key]||1)){toast("Bu bölge henüz kilitli 🔒");return}}const {error}=await db.from("misa_state").update({current_location:key,updated_at:new Date().toISOString()}).eq("id",PET_ID);if(error){err(error);return}m.current_location=key;applyLocation();toast("Mişa "+name+" bölgesine gitti 🐾")}
+function applyLocation(){const s=document.getElementById("scene"),key=m?.current_location||"home";s.className="scene "+(key==="beach"?"beach":key==="forest"?"forest":key==="mountain"?"mountain":key==="space"?"space":isNight()?"night":"");const names={home:"🏠 Mişa'nın Evi",park:"🌳 Park",beach:"🏖️ Sahil",forest:"🌲 Orman",mountain:"⛰️ Dağ",space:"🌌 Kozmik Dünya"};document.getElementById("sceneLabel").textContent=names[key]||"🏠 Ev"}
+function isNight(){const h=new Date().getHours();return h<7||h>=20}
+function tab(id,b){document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");b.classList.add("active");if(id==="world")loadMap()}
+async function loadQuests(){const {data}=await db.from("misa_quests").select("*").eq("active",true).eq("quest_type","daily");const q=document.getElementById("quests");q.innerHTML=(data||[]).map(x=>`<div class="mini"><b>🎯 ${x.title}</b><p>${x.description}</p><small>Hedef: ${x.target_value} · Ödül: ${x.reward_xp} XP + ${x.reward_coins} 🪙</small></div>`).join("")||"<div class='mini'>Görev yok.</div>"}
+function showLevel(l){document.getElementById("modalTitle").textContent="Seviye atladın! 🎉";document.getElementById("modalText").textContent=`Mişa artık Seviye ${l}! ${stage(l)}`;document.getElementById("modal").classList.add("show");actionAnimation("love")}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+function startGame(){if(gameTimer)return;gameScore=0;gameTime=20;document.getElementById("score").textContent=0;document.getElementById("timer").textContent=20;const t=document.getElementById("target");t.style.display="block";moveTarget();gameTimer=setInterval(()=>{gameTime--;document.getElementById("timer").textContent=gameTime;if(gameTime<=0){clearInterval(gameTimer);gameTimer=null;t.style.display="none";toast(`Oyun bitti! Skor: ${gameScore} 🎾`)}},1000)}
+function moveTarget(){const box=document.getElementById("miniGame"),t=document.getElementById("target");t.style.left=(Math.random()*82+5)+"%";t.style.top=(Math.random()*70+8)+"%"}
+function hitTarget(){if(!gameTimer)return;gameScore++;document.getElementById("score").textContent=gameScore;moveTarget();if(gameScore%5===0)toast("Mişa harika oynuyor! ⭐")}
+function realtime(){db.channel("misa-live").on("postgres_changes",{event:"*",schema:"public",table:"misa_state"},()=>load().catch(()=>{})).on("postgres_changes",{event:"INSERT",schema:"public",table:"pet_actions"},()=>loadJournal().catch(()=>{})).subscribe(status=>{if(status==="SUBSCRIBED")sync(true,"Canlı ortak bağlantı aktif ❤️")})}
+async function boot(){try{const p=savedPlayer();if(p&&PLAYERS[p])selectPlayer(p);await load();await refreshDaily();await loadJournal();await loadInventory();await loadAchievements();await loadQuests();applyLocation();realtime();sync(true,"Ortak Mişa aktif · canlı senkron");setInterval(()=>{if(!busy){m.hunger=clamp(m.hunger-.15);m.energy=clamp(m.energy-.08);m.happiness=clamp(m.happiness-.05);render()}},60000)}catch(e){sync(false,"Bağlantı kurulamadı");err(e)}}
+document.addEventListener("DOMContentLoaded",boot);
+</script>
+</body>
+</html>
