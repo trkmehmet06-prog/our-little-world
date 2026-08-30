@@ -31,7 +31,7 @@ class HomeScene extends Phaser.Scene{
   // Status panel
   this.rounded(W/2,200,650,225,0xffffff,.94).setStrokeStyle(2,0xeadfeb,1);
   const stats=[['🍗','Açlık','hunger'],['😊','Mutluluk','happiness'],['⚡','Enerji','energy'],['🧼','Temizlik','cleanliness'],['❤️','Sevgi','love']];
-  this.bars={}; stats.forEach((s,i)=>{const y=120+i*40;this.txt(62,y,s[0]+' '+s[1],18,'#5c5262').setOrigin(0,.5);this.rounded(215,y,280,18,0xeee8f0);const fill=this.rounded(75,y,280,18,0xf0b5cf).setOrigin(0,.5);fill.setScale(1,1);this.bars[s[2]]=fill;this.bars[s[2]+'_label']=this.txt(385,y,'0%',17,'#675b69').setOrigin(0,.5);});
+  this.bars={}; this.barY={}; this.barBg=this.add.graphics(); this.barFill=this.add.graphics(); stats.forEach((s,i)=>{const y=120+i*40;this.txt(62,y,s[0]+' '+s[1],18,'#5c5262').setOrigin(0,.5);this.barY[s[2]]=y;this.bars[s[2]+'_label']=this.txt(370,y,'0%',17,'#675b69').setOrigin(0,.5);}); this.redrawBars();
   this.bubble=this.rounded(W/2,388,570,64,0xffffff,.98).setStrokeStyle(2,0xeee1ea,1);this.message=this.txt(W/2,388,'Mişa seni bekliyor ❤️',21,'#544858');
   // Action buttons
   this.buttons=[];const acts=[['🍖','Besle','feed'],['❤️','Sev','love'],['🎮','Oyna','play'],['🧼','Yıka','clean'],['💤','Uyu','sleep']];
@@ -40,9 +40,14 @@ class HomeScene extends Phaser.Scene{
   const reset=this.rounded(W/2,1200,220,42,0xffffff).setStrokeStyle(1,0xe5dce8,1).setInteractive();this.txt(W/2,1200,'Sıfırla',16,'#8b7d8e');reset.on('pointerdown',()=>this.reset());
   this.xpBg=this.rounded(W/2,108,430,13,0xe9e2eb);this.xpBar=this.rounded(W/2-215,108,430,13,0x9f8ad5).setOrigin(0,0.5);this.xpLabel=this.txt(W/2,108,'XP',12,'#5d5264');
  }
- refresh(){
+ redrawBars(){
   const names=['hunger','happiness','energy','cleanliness','love'];
-  names.forEach(k=>{const v=state[k];const bar=this.bars[k];bar.scaleX=Math.max(0.001,v/100);bar.x=75;this.bars[k+'_label'].setText(Math.round(v)+'%').setX(365);});
+  this.barBg.clear(); this.barFill.clear();
+  this.barBg.fillStyle(0xeee8f0,1); this.barFill.fillStyle(0xf0b5cf,1);
+  names.forEach(k=>{const y=this.barY[k]; const v=clamp(state[k]); this.barBg.fillRoundedRect(75,y-9,280,18,9); if(v>0)this.barFill.fillRoundedRect(75,y-9,280*(v/100),18,9); this.bars[k+'_label'].setText(Math.round(v)+'%').setX(370);});
+ }
+ refresh(){
+  this.redrawBars();
   this.coinText.setText('🪙 '+state.coins);this.levelText.setText('Lv. '+state.level);const need=100+state.level*35;const cur=state.xp%need;this.xpBar.displayWidth=430*(cur/need);this.xpBar.x=W/2-215;this.xpLabel.setText(`XP ${cur}/${need}`);
  }
  setMsg(t){this.message.setText(t);this.tweens.add({targets:this.message,scale:1.05,duration:100,yoyo:true});}
