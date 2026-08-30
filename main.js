@@ -29,9 +29,9 @@ class HomeScene extends Phaser.Scene{
   this.coinText=this.txt(590,48,'🪙 100',25,'#6b4d18');
   this.levelText=this.txt(90,48,'Lv. 1',24,'#5b4a75');
   // Status panel
-  this.rounded(W/2,190,650,155,0xffffff,.94).setStrokeStyle(2,0xeadfeb,1);
+  this.rounded(W/2,200,650,225,0xffffff,.94).setStrokeStyle(2,0xeadfeb,1);
   const stats=[['🍗','Açlık','hunger'],['😊','Mutluluk','happiness'],['⚡','Enerji','energy'],['🧼','Temizlik','cleanliness'],['❤️','Sevgi','love']];
-  this.bars={}; stats.forEach((s,i)=>{const y=132+i*37;this.txt(72,y,s[0]+' '+s[1],19,'#5c5262').setOrigin(0,y/100?0.5:0.5);this.rounded(210,y,270,18,0xeee8f0);this.bars[s[2]]=this.rounded(210,y,270,18,0xf0b5cf).setOrigin(0.5);this.bars[s[2]+'_label']=this.txt(365,y,s[2]==='happiness'?'82%':'',17,'#675b69');});
+  this.bars={}; stats.forEach((s,i)=>{const y=120+i*40;this.txt(62,y,s[0]+' '+s[1],18,'#5c5262').setOrigin(0,.5);this.rounded(215,y,280,18,0xeee8f0);this.bars[s[2]]=this.rounded(75,y,280,18,0xf0b5cf).setOrigin(0,.5);this.bars[s[2]+'_label']=this.txt(370,y,'0%',17,'#675b69').setOrigin(.5);});
   this.bubble=this.rounded(W/2,388,570,64,0xffffff,.98).setStrokeStyle(2,0xeee1ea,1);this.message=this.txt(W/2,388,'Mişa seni bekliyor ❤️',21,'#544858');
   // Action buttons
   this.buttons=[];const acts=[['🍖','Besle','feed'],['❤️','Sev','love'],['🎮','Oyna','play'],['🧼','Yıka','clean'],['💤','Uyu','sleep']];
@@ -42,7 +42,7 @@ class HomeScene extends Phaser.Scene{
  }
  refresh(){
   const names=['hunger','happiness','energy','cleanliness','love'];
-  names.forEach(k=>{const v=state[k];const bar=this.bars[k];bar.displayWidth=270*(v/100);bar.x=75+270*(v/100)/2;this.bars[k+'_label'].setText(Math.round(v)+'%').setX(365);});
+  names.forEach(k=>{const v=state[k];const bar=this.bars[k];bar.displayWidth=280*(v/100);bar.x=75;this.bars[k+'_label'].setText(Math.round(v)+'%').setX(370);});
   this.coinText.setText('🪙 '+state.coins);this.levelText.setText('Lv. '+state.level);const need=100+state.level*35;const cur=state.xp%need;this.xpBar.displayWidth=430*(cur/need);this.xpBar.x=W/2-215;this.xpLabel.setText(`XP ${cur}/${need}`);
  }
  setMsg(t){this.message.setText(t);this.tweens.add({targets:this.message,scale:1.05,duration:100,yoyo:true});}
