@@ -15,7 +15,7 @@ class HomeScene extends Phaser.Scene{
   this.cameras.main.setBackgroundColor('#fff7fb');
   this.add.rectangle(W/2,H/2,W,H,0xfff7fb);
   this.drawUI();
-  this.misa=this.add.image(W/2,610,'misa1').setOrigin(.5).setScale(.88).setInteractive({useHandCursor:true});
+  this.misa=this.add.image(W/2,660,'misa1').setOrigin(.5).setScale(.88).setInteractive({useHandCursor:true});
   this.misa.on('pointerdown',p=>this.petTap(p));
   this.startIdle();
   this.refresh();
@@ -29,16 +29,16 @@ class HomeScene extends Phaser.Scene{
   this.coinText=this.txt(590,48,'🪙 100',25,'#6b4d18');
   this.levelText=this.txt(90,48,'Lv. 1',24,'#5b4a75');
   // Status panel
-  this.rounded(W/2,200,650,225,0xffffff,.94).setStrokeStyle(2,0xeadfeb,1);
+  this.rounded(W/2,250,650,250,0xffffff,.94).setStrokeStyle(2,0xeadfeb,1);
   const stats=[['🍗','Açlık','hunger'],['😊','Mutluluk','happiness'],['⚡','Enerji','energy'],['🧼','Temizlik','cleanliness'],['❤️','Sevgi','love']];
-  this.bars={}; this.barY={}; this.barBg=this.add.graphics(); this.barFill=this.add.graphics(); stats.forEach((s,i)=>{const y=120+i*40;this.txt(62,y,s[0]+' '+s[1],18,'#5c5262').setOrigin(0,.5);this.barY[s[2]]=y;this.bars[s[2]+'_label']=this.txt(370,y,'0%',17,'#675b69').setOrigin(0,.5);}); this.redrawBars();
-  this.bubble=this.rounded(W/2,388,570,64,0xffffff,.98).setStrokeStyle(2,0xeee1ea,1);this.message=this.txt(W/2,388,'Mişa seni bekliyor ❤️',21,'#544858');
+  this.bars={}; this.barY={}; this.barBg=this.add.graphics(); this.barFill=this.add.graphics(); stats.forEach((s,i)=>{const y=165+i*42;this.txt(62,y,s[0]+' '+s[1],18,'#5c5262').setOrigin(0,.5);this.barY[s[2]]=y;this.bars[s[2]+'_label']=this.txt(370,y,'0%',17,'#675b69').setOrigin(0,.5);}); this.redrawBars();
+  this.bubble=this.rounded(W/2,435,570,64,0xffffff,.98).setStrokeStyle(2,0xeee1ea,1);this.message=this.txt(W/2,435,'Mişa seni bekliyor ❤️',21,'#544858');
   // Action buttons
   this.buttons=[];const acts=[['🍖','Besle','feed'],['❤️','Sev','love'],['🎮','Oyna','play'],['🧼','Yıka','clean'],['💤','Uyu','sleep']];
   acts.forEach((a,i)=>{const x=90+i*135;const bg=this.rounded(x,1000,116,92,0xffffff).setStrokeStyle(2,0xeadfeb,1).setInteractive();this.txt(x,983,a[0],31);this.txt(x,1021,a[1],17,'#4f4554');bg.on('pointerdown',()=>this.action(a[2]));this.buttons.push(bg);});
   const mini=this.rounded(W/2,1125,370,64,0x6d5aa8).setInteractive();this.txt(W/2,1125,'🎈  MİŞA İLE OYNA — Mini Oyun',20,'#ffffff');mini.on('pointerdown',()=>this.startMini());
   const reset=this.rounded(W/2,1200,220,42,0xffffff).setStrokeStyle(1,0xe5dce8,1).setInteractive();this.txt(W/2,1200,'Sıfırla',16,'#8b7d8e');reset.on('pointerdown',()=>this.reset());
-  this.xpBg=this.rounded(W/2,108,430,13,0xe9e2eb);this.xpBar=this.rounded(W/2-215,108,430,13,0x9f8ad5).setOrigin(0,0.5);this.xpLabel=this.txt(W/2,108,'XP',12,'#5d5264');
+  this.xpBg=this.rounded(W/2,108,430,13,0xe9e2eb);this.xpBar=this.add.rectangle(W/2-215,108,430,13,0x9f8ad5).setOrigin(0,0.5);this.xpLabel=this.txt(W/2,108,'XP',12,'#5d5264');
  }
  redrawBars(){
   const names=['hunger','happiness','energy','cleanliness','love'];
@@ -48,7 +48,7 @@ class HomeScene extends Phaser.Scene{
  }
  refresh(){
   this.redrawBars();
-  this.coinText.setText('🪙 '+state.coins);this.levelText.setText('Lv. '+state.level);const need=100+state.level*35;const cur=state.xp%need;this.xpBar.displayWidth=430*(cur/need);this.xpBar.x=W/2-215;this.xpLabel.setText(`XP ${cur}/${need}`);
+  this.coinText.setText('🪙 '+state.coins);this.levelText.setText('Lv. '+state.level);const need=100+state.level*35;const cur=state.xp%need;this.xpBar.setScale(Math.max(0.001,cur/need),1);this.xpBar.x=W/2-215;this.xpLabel.setText(`XP ${cur}/${need}`);
  }
  setMsg(t){this.message.setText(t);this.tweens.add({targets:this.message,scale:1.05,duration:100,yoyo:true});}
  gainXP(n){const before=state.level;state.xp+=n;while(state.xp>=100+state.level*35){state.xp-=100+state.level*35;state.level++;state.coins+=25;this.levelUp();}if(state.level>before)this.setMsg('🎉 Mişa seviye atladı! +25 🪙');}
